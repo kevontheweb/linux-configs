@@ -1,0 +1,256 @@
+# Please see http://i3wm.org/docs/userguide.html for a complete reference!
+
+#set mod key to super
+set $mod Mod4
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod normal
+
+#key bindings bindings go here. Using --to-code so that they work in different keyboard layouts
+bindsym --to-code {
+    # start a terminal
+    $mod+Return exec foot
+
+    #program launcher
+    $mod+d exec dmenu_run
+
+    # kill focused window
+    $mod+shift+q kill
+
+    # lock screen
+    $mod+g exec lock
+
+    # lock screen and turn screen off
+    $mod+shift+g exec lock-screen-off
+
+    # change focus
+    $mod+h focus left
+    $mod+j focus down
+    $mod+k focus up
+    $mod+l focus right
+
+    # alternatively, you can use the cursor keys:
+    $mod+left focus left
+    $mod+down focus down
+    $mod+up focus up
+    $mod+right focus right
+
+    # move focused window
+    $mod+shift+h move left
+    $mod+shift+j move down
+    $mod+shift+k move up
+    $mod+shift+l move right
+
+    # alternatively, you can use the cursor keys:
+    $mod+shift+left move left
+    $mod+shift+down move down
+    $mod+shift+up move up
+    $mod+shift+right move right
+
+    # split in horizontal orientation
+    $mod+shift+v splith
+
+    # split in vertical orientation
+    $mod+v splitv
+
+    # enter fullscreen mode for the focused container
+    $mod+f fullscreen
+
+    # change container layout (stacked, tabbed, toggle split)
+    $mod+s layout stacking
+    $mod+w layout tabbed
+    $mod+e layout toggle split
+
+    # toggle tiling / floating
+    $mod+shift+f floating toggle
+
+    # change focus between tiling / floating windows
+    $mod+o focus mode_toggle
+
+    # focus the parent container
+    $mod+a focus parent
+
+    # focus the child container
+    $mod+shift+a focus child
+
+    # switch to workspace
+    $mod+1 workspace 1
+    $mod+2 workspace 2
+    $mod+3 workspace
+    $mod+4 workspace 4
+    $mod+5 workspace 5
+    $mod+6 workspace 6
+    $mod+7 workspace 7
+    $mod+8 workspace 8
+    $mod+9 workspace 9
+    $mod+0 workspace 10
+    $mod+comma exec prev-workspace
+    $mod+period exec next-workspace
+
+
+    # move focused container to workspace
+    $mod+shift+1 move container to workspace 1
+    $mod+shift+2 move container to workspace 2
+    $mod+Shift+3 move container to workspace 3
+    $mod+Shift+4 move container to workspace 4
+    $mod+Shift+5 move container to workspace 5
+    $mod+Shift+6 move container to workspace 6
+    $mod+Shift+7 move container to workspace 7
+    $mod+Shift+8 move container to workspace 8
+    $mod+Shift+9 move container to workspace 9
+    $mod+Shift+0 move container to workspace 10
+    $mod+greater exec next-workspace-move-container
+    $mod+Shift+comma exec prev-workspace-move-container
+
+    # reload the configuration file
+    $mod+shift+c reload
+
+    #resize key
+    $mod+r mode "resize"
+
+    #flashfocus key
+    $mod+n exec nc_flash_window
+
+    #screenshot controls (uses my screenshot scripts)
+    Print exec screenshot
+    shift+Print exec screenshot-area
+
+    #show drop down terminal
+    #$mod+grave scratchpad show
+    $mod+Escape scratchpad show
+
+    #open a drop-down terminal
+    #$mod+shift+grave exec kitty --title drop_down_term
+    $mod+shift+Escape exec foot --title drop_down_term
+
+    #open a file manager
+    $mod+z exec nautilus
+
+    #open nmtui dialog
+    $mod+shift+n exec foot --title wifi_term -e nmtui-connect
+
+    #open pulsemixer dialog
+    $mod+shift+m exec foot --title pulsemixer_term -e pulsemixer
+
+    # Pulse Audio controls, requires ponymix
+    XF86AudioRaiseVolume exec wpctl set-volume 45 0.1+
+    XF86AudioLowerVolume exec wpctl set-volume 45 0.1-
+    XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+
+    #keybind for PTT applications like mumble, discord, because it doesn't work properly under wayland
+    $mod+tab exec mute-toggle
+
+    # Sreen brightness controls
+    XF86MonBrightnessUp exec light -A 10 #increase screen brightness
+    XF86MonBrightnessDown exec light -U 10 # decrease screen brightness
+}
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym --to-code {
+            h resize shrink width 10 px or 10 ppt
+            j resize grow height 10 px or 10 ppt
+            k resize shrink height 10 px or 10 ppt
+            l resize grow width 10 px or 10 ppt
+
+            # same bindings, but for the arrow keys
+            Left resize shrink width 10 px or 10 ppt
+            Down resize grow height 10 px or 10 ppt
+            Up resize shrink height 10 px or 10 ppt
+            Right resize grow width 10 px or 10 ppt
+
+            # back to normal: Enter or Escape
+            Return mode "default"
+            Escape mode "default"
+        }
+}
+
+
+#window rules for my menu popup and drop down terminal using the scratchpad
+# for_window [title="^menu_term$"] floating enable, resize set width 50 ppt height 50 ppt, move center
+# for_window [title="^screensaver$"] fullscreen toggle global
+# for_window [title="^drop_down_term$"] floating enable, resize set width 100 ppt height 60 ppt, move position 0px 0px, move scratchpad
+# for_window [title="^wifi_term$"] floating enable, resize set width 36 ppt height 39 ppt, move center
+# for_window [title="^pulsemixer_term$"] floating enable, resize set width 36 ppt height 39 ppt, move center
+# for_window [app_id="^mpv$"] floating enable
+
+#general settings
+gaps inner 11
+gaps outer 0
+#hide mouse on inactivity
+seat * hide_cursor 10000
+font Roboto:size=11
+default_floating_border pixel 2
+default_border pixel 2
+# hide_edge_borders both
+focus_follows_mouse yes
+
+# border colors
+client.focused		#ff6e67 #ff6e67 #ff6e67 #ffc1bd #ff6e67
+#client.focused          #bababa #bababa #bababa #dadada #bababa
+client.unfocused	#b8b8b8 #b8b8b8 #b8b8b8 #b8b8b8 #b8b8b8
+client.focused_inactive	#b8b8b8 #b8b8b8 #b8b8b8 #b8b8b8 #b8b8b8
+
+# border_images.focused ~/.config/sway/shadows.png
+# border_images.focused_inactive ~/.config/sway/shadows.png
+# border_images.unfocused ~/.config/sway/shadows.png
+# border_images.urgent ~/.config/sway/shadows.png
+
+#client.unfocused	#262626 #262626 #262626 #262626 #262626
+#client.focused_inactive	#262626 #262626 #262626 #262626 #262626
+
+
+#startup programs
+#exec udiskie &
+# exec redshift-gtk
+# exec nm-applet --indicator
+# exec blueman-applet
+# exec mako
+# exec dmenu
+
+# input "1:1:AT_Translated_Set_2_keyboard" {
+#     repeat_rate 30
+#     repeat_delay 350
+# }
+#
+# input "1241:41619:OBINS_OBINS_AnnePro2" {
+#     repeat_rate 30
+#     repeat_delay 350
+# }
+
+bar {
+    status_command ~/.config/sway/bar.py
+    position top
+    # swaybar_command swaystatus
+    colors {
+        # Text color of status bar
+        statusline #e0def4
+        # Background of status bar
+        background #191724
+        separator #6e6a86
+        focused_workspace #6e6a86 #ebbcba #191724
+        inactive_workspace #6e6a86 #403d52 #6e6a86
+    }
+    font pango:DejaVu Sans Mono 10
+
+}
+
+
+input type:touchpad {
+    tap enabled
+    natural_scroll enabled
+}
+
+# keyboard layouts
+# input * xkb_layout "us,gr"
+# input * xkb_options "grp:win_space_toggle"
+
+# wallpaper settings
+output "*" background $HOME/Pictures/Wallpapers/rose_pine_contourline.png fill
+

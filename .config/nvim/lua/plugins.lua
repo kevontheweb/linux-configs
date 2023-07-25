@@ -1,105 +1,210 @@
-local ensure_packer = function()
-    local fn = vim.fn
-    local install_path = fn.stdpath('data') ..
-                             '/site/pack/packer/start/packer.nvim'
-    if fn.empty(fn.glob(install_path)) > 0 then
-        fn.system({
-            'git', 'clone', '--depth', '1',
-            'https://github.com/wbthomason/packer.nvim', install_path
-        })
-        vim.cmd [[packadd packer.nvim]]
-        return true
-    end
-    return false
+-- Install package manager
+local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system {
+		'git',
+		'clone',
+		'--filter=blob:none',
+		'https://github.com/folke/lazy.nvim.git',
+		'--branch=stable', -- latest stable release
+		lazypath,
+	}
 end
+vim.opt.rtp:prepend(lazypath)
 
-local packer_bootstrap = ensure_packer()
+-- setup package manager
+require('lazy').setup({
+		{
+			-- LSP Configuration & Plugins
+			'neovim/nvim-lspconfig',
+			dependencies = {
+				-- Automatically install LSPs to stdpath for neovim
+				'williamboman/mason.nvim',
+				'williamboman/mason-lspconfig.nvim',
+			},
+		},
 
-return require('packer').startup(function(use)
-    if vim.g.vscode then
-        print('not loading plugins')
-    else
-        use({'wbthomason/packer.nvim'})
-        -- colorscheme
-        use({
-            'catppuccin/nvim',
-            as = 'catppuccin',
-            branch = 'main',
-            run = ':CatppuccinCompile'
-        })
+		{
+			-- Autocompletion
+			'hrsh7th/nvim-cmp',
+			dependencies = {
+				'hrsh7th/cmp-nvim-lsp',
+				'L3MON4D3/LuaSnip',
+				'saadparwaiz1/cmp_luasnip',
+				'hrsh7th/cmp-buffer',
+				'hrsh7th/cmp-path',
+				'hrsh7th/cmp-cmdline',
+				'f3fora/cmp-spell'
+			},
+		},
+		-- formatting
+		{
+			"jay-babu/mason-null-ls.nvim",
+			event = { "BufReadPre", "BufNewFile" },
+			dependencies = {
+				"williamboman/mason.nvim",
+				"jose-elias-alvarez/null-ls.nvim",
+			},
+			config = function()
+				-- require("your.null-ls.config") -- require your null-ls config here (example below)
+				local null_ls = require("null-ls")
+				null_ls.setup({
+					sources = {
+						null_ls.builtins.formatting.black,
+						null_ls.builtins.formatting.clang_format,
+						null_ls.builtins.formatting.prettierd,
+					},
+				})
+			end,
+		},
 
-        use({'olimorris/onedarkpro.nvim'})
-        use({'projekt0n/github-nvim-theme', tag = 'v0.0.7'})
+		-- AI
+		-- { 'Exafunction/codeium.vim' },
 
-        -- better syntax highlighting
-        use({
-            'nvim-treesitter/nvim-treesitter',
-            run = function()
-                local ts_update = require('nvim-treesitter.install').update({
-                    with_sync = true
-                })
-                ts_update()
-            end,
-            config = function() require('config.treesitter_config') end
-        })
+		-- Useful plugin to show you pending keybinds.
+		{ 'folke/which-key.nvim',          opts = {} },
 
-        -- lsp
-        use({'neovim/nvim-lspconfig'})
+		{
+			-- Adds git releated signs to the gutter, as well as utilities for managing changes
+			'lewis6991/gitsigns.nvim',
+			opts = {
+				-- See `:help gitsigns.txt`
+				signs = {
+					add = { text = '+' },
+					change = { text = '~' },
+					delete = { text = '_' },
+					topdelete = { text = '‾' },
+					changedelete = { text = '~' },
+				},
+			},
+		},
 
-        use({
-            'hrsh7th/nvim-cmp',
-            event = 'BufRead',
-            requires = {
-                -- vscode pictograms
-                {'onsails/lspkind.nvim'}, -- nvim-cmp
-                -- { 'hrsh7th/cmp-nvim-lsp', after = 'nvim-cmp' },
-                {'hrsh7th/cmp-buffer', after = 'nvim-cmp'},
-                {'hrsh7th/cmp-path', after = 'nvim-cmp'},
-                {'f3fora/cmp-spell', after = 'nvim-cmp'},
-                {'hrsh7th/cmp-nvim-lua', after = 'nvim-cmp'},
-                {'hrsh7th/cmp-cmdline', after = 'nvim-cmp'},
-                {'hrsh7th/cmp-calc', after = 'nvim-cmp'},
-                {'hrsh7th/cmp-emoji', after = 'nvim-cmp'}
-            },
-            config = function() require('config.cmp_config') end
-        })
+		{
+			-- Theme inspired by Atom
+			'navarasu/onedark.nvim',
+			priority = 1000,
+			config = function()
+				vim.cmd.colorscheme 'onedark'
+			end,
+			lazy = true
+		},
 
-        use({
-            'williamboman/mason.nvim',
-            event = 'BufRead',
-            requires = {{'neovim/nvim-lspconfig'}, {'hrsh7th/cmp-nvim-lsp'}},
-            -- config = function() require('mason').setup() end
-            config = function() require('config.mason_config') end
-        })
 
-        use({
-            'williamboman/mason-lspconfig.nvim',
-            requires = {'williamboman/mason.nvim'}
-        })
+		{
+			'folke/tokyonight.nvim',
+			config = function()
+				require("tokyonight").setup({
+					style = "night",
+					light_style = "day",
+					transparent = true,
+					terminal_colors = true, -- Configure the colors used when opening a `:terminal` in Neovim
+					styles = {
+						comments = { italic = true },
+						keywords = { italic = true },
+						functions = {},
+						variables = {},
+						sidebars = "dark",
+						floats = "dark",
+					},
+					hide_inactive_statusline = true, -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
+					dim_inactive = true, -- dims inactive windows
+				})
+				vim.cmd.colorscheme 'tokyonight-moon'
+			end,
+			lazy = false
+		},
 
-        -- code formatters
-        use({
-            'jose-elias-alvarez/null-ls.nvim',
-            requires = {
-                {'nvim-lua/plenary.nvim'}, {'MunifTanjim/prettier.nvim'}
-            },
-            config = function() require('config.null_ls_config') end
-        })
+		{
+			'Mofiqul/dracula.nvim',
+			config = function()
+				require("dracula").setup()
+			end,
+			lazy = true
+		},
 
-        -- comment shortcuts
-        use({
-            'numToStr/Comment.nvim',
-            config = function() require('Comment').setup() end
-        })
+		{
+			'nvim-tree/nvim-tree.lua',
+			dependencies = { 'nvim-tree/nvim-web-devicons' },
+			config = function()
+				require("nvim-tree").setup({
+					disable_netrw = false,
+					hijack_netrw = true,
+					sync_root_with_cwd = true,
+					view = {
+						cursorline = true,
+						adaptive_size = true,
+						hide_root_folder = false,
+						side = "left",
+						preserve_window_proportions = true,
+						signcolumn = "yes",
+					},
+					diagnostics = {
+						enable = true,
+						show_on_dirs = false,
+					},
+					filters = {
+						custom = {
+							"^.git$",
+						},
+					},
+					trash = {
+						cmd = "trash",
+						require_confirm = true,
+					},
+				})
+			end
+		},
+		{
+			-- Set lualine as statusline
+			'nvim-lualine/lualine.nvim',
+			-- See `:help lualine.txt`
+			opts = {
+				options = {
+					icons_enabled = true,
+					theme = 'tokyonight',
+					component_separators = '|',
+					section_separators = '',
+				},
+			},
+		},
 
-        -- file picker
-        use({
-            'nvim-tree/nvim-tree.lua',
-            requires = {
-                'nvim-tree/nvim-web-devicons' -- optional, for file icons
-            },
-            config = function() require('config.nvim_tree_config') end
-        })
-    end
-    if packer_bootstrap then require('packer').sync() end
-end)
+		{
+			-- Add indentation guides even on blank lines
+			'lukas-reineke/indent-blankline.nvim',
+			-- Enable `lukas-reineke/indent-blankline.nvim`
+			-- See `:help indent_blankline.txt`
+			opts = {
+				char = '┊',
+				show_trailing_blankline_indent = false,
+			},
+		},
+		--
+		-- "gc" to comment visual regions/lines
+		{ 'numToStr/Comment.nvim',         opts = {} },
+
+		-- Fuzzy Finder (files, lsp, etc)
+		{ 'nvim-telescope/telescope.nvim', version = '*', dependencies = { 'nvim-lua/plenary.nvim' } },
+
+		-- Fuzzy Finder Algorithm which requires local dependencies to be built.
+		-- Only load if `make` is available. Make sure you have the system
+		-- requirements installed.
+		{
+			'nvim-telescope/telescope-fzf-native.nvim',
+			-- NOTE: If you are having trouble with this installation,
+			--       refer to the README for telescope-fzf-native for more instructions.
+			build = 'make',
+			cond = function()
+				return vim.fn.executable 'make' == 1
+			end,
+		},
+
+		{
+			-- Highlight, edit, and navigate code
+			'nvim-treesitter/nvim-treesitter',
+			config = function()
+				pcall(require('nvim-treesitter.install').update { with_sync = true })
+			end,
+		},
+
+	},
+	{})

@@ -1,0 +1,21 @@
+
+# The following lines were added by compinstall
+
+zstyle ':completion:*' completer _expand _complete _ignored _approximate
+zstyle ':completion:*' completions 1
+zstyle ':completion:*' file-sort name
+zstyle ':completion:*' glob 1
+zstyle ':completion:*' list-colors ''
+zstyle ':completion:*' list-suffixes true
+zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
+zstyle ':completion:*' max-errors 5
+zstyle ':completion:*' menu select=5
+zstyle ':completion:*' original true
+zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+zstyle ':completion:*' special-dirs true
+zstyle ':completion:*' substitute 1
+zstyle :compinstall filename '/home/kevin/.zshrc'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
