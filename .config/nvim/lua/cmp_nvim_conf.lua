@@ -18,10 +18,11 @@ cmp.setup {
 			behavior = cmp.ConfirmBehavior.Replace,
 			select = true,
 		},
-		['<Tab>'] = cmp.mapping.confirm {
+
+		--[[ ['<Tab>'] = cmp.mapping.confirm {
 			behavior = cmp.ConfirmBehavior.Replace,
 			select = true,
-		},
+		}, ]]
 
 		['<C-n>'] = cmp.mapping(function(fallback)
 			if cmp.visible() then
@@ -32,6 +33,7 @@ cmp.setup {
 				fallback()
 			end
 		end, { 'i', 's' }),
+
 		['<C-p>'] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_prev_item()

@@ -56,13 +56,22 @@ require('lazy').setup({
 					},
 				})
 			end,
+			lazy = true
+		},
+
+		{
+			'mhartington/formatter.nvim',
+			lazy = true
 		},
 
 		-- AI
-		-- { 'Exafunction/codeium.vim' },
+		{ 'Exafunction/codeium.vim' },
 
 		-- Useful plugin to show you pending keybinds.
-		{ 'folke/which-key.nvim',          opts = {} },
+		{
+			'folke/which-key.nvim',
+			opts = {}
+		},
 
 		{
 			-- Adds git releated signs to the gutter, as well as utilities for managing changes
@@ -76,6 +85,39 @@ require('lazy').setup({
 					topdelete = { text = '‾' },
 					changedelete = { text = '~' },
 				},
+			},
+		},
+
+		{
+			"folke/zen-mode.nvim",
+			dependencies = {
+				'folke/twilight.nvim'
+			},
+			opts = {
+				window = {
+					width = 120,
+				},
+				plugins = {
+					wezterm = {
+						enabled = true,
+						-- can be either an absolute font size or the number of incremental steps
+						font = "+0", -- (10% increase per step)
+					},
+					twilight = {
+						enabled = false,
+					},
+					gitsigns = {
+						enabled = true,
+					}
+				},
+				-- callback where you can add custom code when the Zen window opens
+				on_open = function(win)
+					vim.o.number = false
+				end,
+				-- callback where you can add custom code when the Zen window closes
+				on_close = function()
+					vim.o.number = true
+				end,
 			},
 		},
 
@@ -109,7 +151,7 @@ require('lazy').setup({
 					hide_inactive_statusline = true, -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
 					dim_inactive = true, -- dims inactive windows
 				})
-				vim.cmd.colorscheme 'tokyonight-moon'
+				vim.cmd.colorscheme 'tokyonight'
 			end,
 			lazy = false
 		},
@@ -129,7 +171,7 @@ require('lazy').setup({
 				require("nvim-tree").setup({
 					disable_netrw = false,
 					hijack_netrw = true,
-					sync_root_with_cwd = true,
+					sync_root_with_cwd = false,
 					view = {
 						cursorline = true,
 						adaptive_size = true,
@@ -142,18 +184,21 @@ require('lazy').setup({
 						enable = true,
 						show_on_dirs = false,
 					},
-					filters = {
-						custom = {
-							"^.git$",
-						},
-					},
 					trash = {
 						cmd = "trash",
 						require_confirm = true,
 					},
 				})
-			end
+			end,
+			lazy = true,
 		},
+
+		{
+			"nvim-telescope/telescope-file-browser.nvim",
+			dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
+
+		},
+
 		{
 			-- Set lualine as statusline
 			'nvim-lualine/lualine.nvim',
@@ -166,6 +211,7 @@ require('lazy').setup({
 					section_separators = '',
 				},
 			},
+			-- lazy = true,
 		},
 
 		{
@@ -178,7 +224,7 @@ require('lazy').setup({
 				show_trailing_blankline_indent = false,
 			},
 		},
-		--
+
 		-- "gc" to comment visual regions/lines
 		{ 'numToStr/Comment.nvim',         opts = {} },
 
