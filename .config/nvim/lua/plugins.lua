@@ -37,32 +37,6 @@ require('lazy').setup({
 				'f3fora/cmp-spell'
 			},
 		},
-		-- formatting
-		{
-			"jay-babu/mason-null-ls.nvim",
-			event = { "BufReadPre", "BufNewFile" },
-			dependencies = {
-				"williamboman/mason.nvim",
-				"jose-elias-alvarez/null-ls.nvim",
-			},
-			config = function()
-				-- require("your.null-ls.config") -- require your null-ls config here (example below)
-				local null_ls = require("null-ls")
-				null_ls.setup({
-					sources = {
-						null_ls.builtins.formatting.black,
-						null_ls.builtins.formatting.clang_format,
-						null_ls.builtins.formatting.prettierd,
-					},
-				})
-			end,
-			lazy = true
-		},
-
-		{
-			'mhartington/formatter.nvim',
-			lazy = true
-		},
 
 		-- AI
 		{ 'Exafunction/codeium.vim' },
@@ -154,43 +128,6 @@ require('lazy').setup({
 				vim.cmd.colorscheme 'tokyonight'
 			end,
 			lazy = false
-		},
-
-		{
-			'Mofiqul/dracula.nvim',
-			config = function()
-				require("dracula").setup()
-			end,
-			lazy = true
-		},
-
-		{
-			'nvim-tree/nvim-tree.lua',
-			dependencies = { 'nvim-tree/nvim-web-devicons' },
-			config = function()
-				require("nvim-tree").setup({
-					disable_netrw = false,
-					hijack_netrw = true,
-					sync_root_with_cwd = false,
-					view = {
-						cursorline = true,
-						adaptive_size = true,
-						hide_root_folder = false,
-						side = "left",
-						preserve_window_proportions = true,
-						signcolumn = "yes",
-					},
-					diagnostics = {
-						enable = true,
-						show_on_dirs = false,
-					},
-					trash = {
-						cmd = "trash",
-						require_confirm = true,
-					},
-				})
-			end,
-			lazy = true,
 		},
 
 		{
