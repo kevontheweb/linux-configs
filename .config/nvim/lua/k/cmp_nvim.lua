@@ -11,20 +11,20 @@ cmp.setup {
 		end,
 	},
 	mapping = cmp.mapping.preset.insert {
-		['<C-u>'] = cmp.mapping.scroll_docs(-4),
-		['<C-d>'] = cmp.mapping.scroll_docs(4),
-		['<C-Space>'] = cmp.mapping.complete {},
-		['<CR>'] = cmp.mapping.confirm {
+		['<C-u>'] = cmp.mapping.scroll_docs(-4), -- don't think these work tbh
+		['<C-d>'] = cmp.mapping.scroll_docs(4), -- don't think these work tbh
+		['<C-Space>'] = cmp.mapping.complete {}, -- trigger completion popup 
+		['<CR>'] = cmp.mapping.confirm { -- confirm lsp completions with enter (currently using tab for completion of codeium AI suggestions)
 			behavior = cmp.ConfirmBehavior.Replace,
 			select = true,
 		},
 
-		--[[ ['<Tab>'] = cmp.mapping.confirm {
+		--[[ ['<Tab>'] = cmp.mapping.confirm { -- confirm lsp completions with enter (currently using tab for )
 			behavior = cmp.ConfirmBehavior.Replace,
 			select = true,
 		}, ]]
 
-		['<C-n>'] = cmp.mapping(function(fallback)
+		['<C-n>'] = cmp.mapping(function(fallback) -- next
 			if cmp.visible() then
 				cmp.select_next_item()
 			elseif luasnip.expand_or_jumpable() then
@@ -34,7 +34,7 @@ cmp.setup {
 			end
 		end, { 'i', 's' }),
 
-		['<C-p>'] = cmp.mapping(function(fallback)
+		['<C-p>'] = cmp.mapping(function(fallback) -- previous
 			if cmp.visible() then
 				cmp.select_prev_item()
 			elseif luasnip.jumpable(-1) then

@@ -1,16 +1,18 @@
+-- [[ my vimrc ]]
 -- Set <space> as the leader key
--- See `:help mapleader`
---  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- [[ imports ]]
 require('plugins')
 require('k.telescope')
 require('k.treesitter')
 require('k.lsp') -- needs to be after the above keybinds
 require('k.cmp_nvim')
+require('k.formatter')
 require('k.configs')
 require('k.keymap')
+require('k.treesitter_textobjects')
 
 -- [[ Setting options ]]
 
@@ -30,8 +32,7 @@ vim.o.clipboard = 'unnamedplus'
 vim.o.tabstop = 4
 
 -- indent wrapped lines by 4 spaces
--- vim.cmd [[set showbreak =\ \ \ \ ]]
-vim.o.showbreak = '    '
+vim.o.showbreak = '  ↳ '
 
 -- Enable break indent
 vim.o.breakindent = false
@@ -59,24 +60,17 @@ vim.o.termguicolors = true
 
 -- Use Netrw
 vim.g.netrw_browse_split = 3
-vim.g.netrw_keep_dir = 0
-vim.g.netrw_winsize = 30
-vim.g.netrw_localcopydircmd = 'cp -r'
 vim.g.netrw_liststyle = 3
-vim.g.netrw_banner = 0
-vim.g.netrw_altv = 1                                       -- open vertical split on the right with 'v'
-vim.cmd [[let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+']] -- hidden files in netrw
+vim.g.netrw_altv = 1 -- open vertical split on the right with 'v'
 
 vim.o.wrap = false
 vim.o.linebreak = true
 
 -- make underscore a keywords so that you can jump through long snake case variable names
-vim.cmd('set iskeyword-=_')
+-- vim.cmd('set iskeyword-=_')
 
--- set make num entries for completion popup
-vim.o.pumheight = 8
+-- set max num entries for completion popup
+vim.o.pumheight = 12
 
 -- winbar (file info in the tabline even when no tabs)
--- vim.o.winbar = "%f%m [%l/%L]"
-
-
+vim.o.winbar = "(%f %m) (%l/%L) (%n)"

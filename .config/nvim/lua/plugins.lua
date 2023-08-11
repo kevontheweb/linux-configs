@@ -96,6 +96,13 @@ require('lazy').setup({
 		},
 
 		{
+			'andweeb/presence.nvim',
+			config = function()
+				require("presence").setup()
+			end
+		},
+
+		{
 			-- Theme inspired by Atom
 			'navarasu/onedark.nvim',
 			priority = 1000,
@@ -131,6 +138,10 @@ require('lazy').setup({
 		},
 
 		{
+			"mhartington/formatter.nvim"
+		},
+
+		{
 			"nvim-telescope/telescope-file-browser.nvim",
 			dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
 
@@ -146,6 +157,9 @@ require('lazy').setup({
 					theme = 'tokyonight',
 					component_separators = '|',
 					section_separators = '',
+					sections = {
+						lualine_a = { 'filename', path = 4 },
+					}
 				},
 			},
 			-- lazy = true,
@@ -163,10 +177,17 @@ require('lazy').setup({
 		},
 
 		-- "gc" to comment visual regions/lines
-		{ 'numToStr/Comment.nvim',         opts = {} },
+		{
+			'numToStr/Comment.nvim',
+			opts = {}
+		},
 
 		-- Fuzzy Finder (files, lsp, etc)
-		{ 'nvim-telescope/telescope.nvim', version = '*', dependencies = { 'nvim-lua/plenary.nvim' } },
+		{
+			'nvim-telescope/telescope.nvim',
+			version = '*',
+			dependencies = { 'nvim-lua/plenary.nvim' }
+		},
 
 		-- Fuzzy Finder Algorithm which requires local dependencies to be built.
 		-- Only load if `make` is available. Make sure you have the system
@@ -188,6 +209,11 @@ require('lazy').setup({
 				pcall(require('nvim-treesitter.install').update { with_sync = true })
 			end,
 		},
+
+		{
+			"nvim-treesitter/nvim-treesitter-textobjects",
+			dependencies = { "nvim-treesitter/nvim-treesitter" }
+		}
 
 	},
 	{})

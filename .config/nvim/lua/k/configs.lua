@@ -1,12 +1,6 @@
 -- my config stuff
 
 -- [[ restore last editing location on file open ]]
--- From vim defaults.vim
--- ---
--- When editing a file, always jump to the last known cursor position.
--- Don't do it when the position is invalid, when inside an event handler
--- (happens when dropping a file on gvim) and for a commit message (it's
--- likely a different one than last time).
 vim.api.nvim_create_autocmd('BufReadPost', {
 	-- group = vim.g.user.event,
 	callback = function(args)
@@ -20,8 +14,7 @@ vim.api.nvim_create_autocmd('BufReadPost', {
 	end,
 })
 
--- vw: "vintage wrap"
-
+-- [[ vw: "vintage wrap" ]] (only works when no splits are open)
 vim.keymap.set({ 'n' }, '<leader>vw',
 	function()
 		vim.wo.wrap = not vim.wo.wrap
@@ -35,7 +28,6 @@ vim.keymap.set({ 'n' }, '<leader>vw',
 	{ noremap = true }
 )
 
-
 -- [[ Highlight on yank ]]
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -47,7 +39,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- [[ format on save ]]
-vim.cmd [[autocmd BufWritePre *80 lua vim.lsp.buf.format()]]
+-- vim.cmd [[autocmd BufWritePost * lua vim.lsp.buf.format()]]
 
--- compiler stuffs
-vim.cmd [[autocmd BufRead * lua vim.keymap.set('n', '<leader>cr', '<cmd>!../../compile.sh %<cr>', { desc = "Compile and open markdown document" }) ]]
+-- trim whitespace on save (this is done with formatter.nvim now)
+-- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+-- 	pattern = { "*" },
+-- 	command = [[%s/\s\+$//e]],
+-- })

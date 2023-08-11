@@ -7,37 +7,45 @@ local on_attach = function(_, bufnr)
 	--
 	-- In this case, we create a function that lets us more easily define mappings specific
 	-- for LSP related items. It sets the mode, buffer and description for us each time.
-	local nmap = function(keys, func, desc)
-		if desc then
-			desc = 'LSP: ' .. desc
-		end
+	-- helper function (i refactored this out)
+	-- local vim.keymap.set = function(keys, func, desc)
+	-- 	if desc then
+	-- 		desc = 'LSP: ' .. desc
+	-- 	end
+	--
+	-- 	vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
+	-- end
 
-		vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
-	end
+	  vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { buffer = bufnr, desc = 'LSP: [R]e[n]ame' })
+	vim.keymap.set('n',  '<leader>ca', vim.lsp.buf.code_action, { buffer = bufnr, desc = 'LSP: [C]ode [A]ction' })
 
-	nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-	nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
-
-	nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-	nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-	nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
-	nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
-	nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-	nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+	vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr, desc = 'LSP: [G]oto [D]efinition' })
+	vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references,
+		{ buffer = bufnr, desc = 'LSP: [G]oto [R]eferences' })
+	vim.keymap.set('n', 'gI', vim.lsp.buf.implementation, { buffer = bufnr, desc = 'LSP: [G]oto [I]mplementation' })
+	vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, { buffer = bufnr, desc = 'LSP: Type [D]efinition' })
+	vim.keymap.set('n', '<leader>ds', require('telescope.builtin').lsp_document_symbols,
+		{ buffer = bufnr, desc = 'LSP: [D]ocument [S]ymbols' })
+	vim.keymap.set('n', '<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols,
+		{ buffer = bufnr, desc = 'LSP: [W]orkspace [S]ymbols' })
 
 	-- See `:help K` for why this keymap
-	nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-	nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+	vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr, desc = 'LSP: Hover Documentation' })
+	vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help,
+		{ buffer = bufnr, desc = 'LSP: Signature Documentation' })
 
 	-- Lesser used LSP functionality
-	nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-	nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
-	nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
-	nmap('<leader>wl', function()
+	vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = bufnr, desc = 'LSP: [G]oto [D]eclaration' })
+	vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder,
+		{ buffer = bufnr, desc = 'LSP: [W]orkspace [A]dd Folder' })
+	vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder,
+		{ buffer = bufnr, desc = 'LSP: [W]orkspace [R]emove Folder' })
+	vim.keymap.set('n', '<leader>wl', function()
 		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-	end, '[W]orkspace [L]ist Folders')
+	end, { buffer = bufnr, desc = 'LSP: [W]orkspace [L]ist Folders' })
 
 	-- Create a command `:Format` local to the LSP buffer
+	-- (this conflicts with formatter.nvim)
 	vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
 		vim.lsp.buf.format()
 	end, { desc = 'Format current buffer with LSP' })
@@ -50,7 +58,18 @@ end
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
 	clangd = {},
-	pyright = {},
+	pyright = {
+		{
+			python = {
+				analysis = {
+					autoSearchPaths = true,
+					diagnosticMode = "workspace",
+					useLibraryCodeForTypes = true
+				}
+			},
+			single_file_support = true,
+		}
+	},
 	rust_analyzer = {},
 	tsserver = {},
 	lua_ls = {
@@ -62,7 +81,7 @@ local servers = {
 	ltex = {
 	},
 	texlab = {
-		filetypes = { 'markdown', 'bib', 'plaintex', 'latex' },
+		filetypes = { 'bib', 'plaintex', 'latex' },
 	},
 	marksman = {},
 	html = {},
