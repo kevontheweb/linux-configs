@@ -16,8 +16,8 @@ local on_attach = function(_, bufnr)
 	-- 	vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
 	-- end
 
-	  vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { buffer = bufnr, desc = 'LSP: [R]e[n]ame' })
-	vim.keymap.set('n',  '<leader>ca', vim.lsp.buf.code_action, { buffer = bufnr, desc = 'LSP: [C]ode [A]ction' })
+	vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { buffer = bufnr, desc = 'LSP: [R]e[n]ame' })
+	vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { buffer = bufnr, desc = 'LSP: [C]ode [A]ction' })
 
 	vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr, desc = 'LSP: [G]oto [D]efinition' })
 	vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references,
@@ -63,7 +63,7 @@ local servers = {
 			python = {
 				analysis = {
 					autoSearchPaths = true,
-					diagnosticMode = "workspace",
+					diagnosticMode = 'workspace',
 					useLibraryCodeForTypes = true
 				}
 			},

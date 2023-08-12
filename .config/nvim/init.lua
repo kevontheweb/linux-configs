@@ -5,17 +5,19 @@ vim.g.maplocalleader = ' '
 
 -- [[ imports ]]
 require('plugins')
-require('k.telescope')
-require('k.treesitter')
-require('k.lsp') -- needs to be after the above keybinds
-require('k.cmp_nvim')
-require('k.formatter')
+require('k.plugins.telescope')
+require('k.plugins.treesitter')
+require('k.plugins.lsp') -- needs to be after the above keybinds
+require('k.plugins.cmp_nvim')
+require('k.plugins.formatter')
+require('k.plugins.treesitter_textobjects')
+require('k.plugins.lualine')
 require('k.configs')
 require('k.keymap')
-require('k.treesitter_textobjects')
+
+-- vim.cmd.colorscheme 'tokyonight'
 
 -- [[ Setting options ]]
-
 -- Set highlight on search
 vim.o.hlsearch = false
 
@@ -73,4 +75,4 @@ vim.o.linebreak = true
 vim.o.pumheight = 12
 
 -- winbar (file info in the tabline even when no tabs)
-vim.o.winbar = "(%f %m) (%l/%L) (%n)"
+vim.o.winbar = '%n: %f %m [%l/%L]'

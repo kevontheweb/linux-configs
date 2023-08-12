@@ -29,13 +29,13 @@ vim.keymap.set({ 'n' }, '<leader>sw', '<cmd>set wrap!<cr>', { noremap = true },
 	{ desc = '[S]et [W]rap' })
 
 -- keybind format (this keymap is now configured in 'lua/k/formatter.lua')
--- vim.keymap.set("n", "<leader>fc", vim.lsp.buf.format, { desc = "[F]ormat using [L]SP" })
+-- vim.keymap.set('n', '<leader>fc', vim.lsp.buf.format, { desc = '[F]ormat using [L]SP' })
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
-vim.keymap.set('n', '<leader>D', vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
+vim.keymap.set('n', '<leader>D', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 -- centre window for jumps
 -- vim.keymap.set('n', '{', '{zz')
@@ -45,10 +45,10 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = "Open diagn
 
 -- open file_browser with the path of the current buffer
 vim.keymap.set(
-	"n",
-	"<space>fb",
-	require "telescope".extensions.file_browser.file_browser,
-	{ desc = "Telescope [f]ile [b]rowser" },
+	'n',
+	'<space>fb',
+	require 'telescope'.extensions.file_browser.file_browser,
+	{ desc = 'Telescope [f]ile [b]rowser' },
 	{ noremap = true }
 )
 
@@ -58,7 +58,7 @@ vim.keymap.set(
 -- 	'v',
 -- 	'<leader>ft',
 -- 	':!pandoc -t gfm<cr>',
--- 	{ desc = "[f]ormat [t]able" },
+-- 	{ desc = '[f]ormat [t]able' },
 -- 	{ noremap = true }
 -- )
 
@@ -72,12 +72,17 @@ vim.keymap.set(
 		local cwd = vim.fn.getcwd()
 		local buff = vim.api.nvim_get_current_buf()
 		local filename = vim.api.nvim_buf_get_name(buff)
-		-- vim._system({ "python3", filename }, { text = true, cwd = cwd }, on_exit)
-		vim.fn.jobstart({ "python3", filename }, { text = true, cwd = cwd })
+		-- vim._system({ 'python3', filename }, { text = true, cwd = cwd }, on_exit)
+		vim.fn.jobstart({ 'python3', filename }, { text = true, cwd = cwd })
 	end,
-	{ desc = "[R]un [P]ython" },
+	{ desc = '[R]un [P]ython' },
 	{ noremap = true }
 )
 
 -- compile md
-vim.keymap.set('n', '<leader>cm', '<cmd>!../../compile.sh %<cr>', { desc = "Compile and open markdown document" })
+vim.keymap.set('n', '<leader>cm', '<cmd>!../../compile.sh %<cr>', { desc = 'Compile and open markdown document' })
+
+-- quickfix
+vim.keymap.set('n', '<leader>qf', '<cmd>TroubleToggle quickfix<cr>',
+	{ desc = '[Q]uick[f]ix' }, { silent = true, noremap = true }
+)
