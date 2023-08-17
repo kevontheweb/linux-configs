@@ -24,6 +24,7 @@ wezterm.on('user-var-changed', function(window, pane, name, value)
 	end
 	window:set_config_overrides(overrides)
 end)
+
 function get_appearance()
 	if wezterm.gui then
 		return wezterm.gui.get_appearance()
@@ -31,13 +32,27 @@ function get_appearance()
 	return 'Dark'
 end
 
+wezterm.on('toggle-opacity', function(window, pane)
+	local overrides = window:get_config_overrides() or {}
+	if overrides.window_background_opacity ~= 1 then
+		overrides.window_background_opacity = 1
+	else
+		overrides.window_background_opacity = 0.85
+	end
+	window:set_config_overrides(overrides)
+end)
+
+
 function scheme_for_appearance(appearance)
 	if appearance:find "Light" then
 		-- return "Catppuccin Latte"
+		-- return "Everforest Light (Gogh)"
 		-- return "Rosé Pine Dawn (base16)"
-		return 'Tokyo Night Day'
+		-- return 'Tokyo Night Day'
+		return 'Tokyo Night'
 	else
 		-- return "Catppuccin Mocha"
+		-- return "Everforest Dark (Gogh)"
 		-- return "Rosé Pine (base16)"
 		return 'Tokyo Night'
 	end
@@ -48,12 +63,17 @@ return {
 	default_cursor_style = 'BlinkingBlock',
 	animation_fps = 75,
 	cursor_blink_rate = 500,
+	pane_focus_follows_mouse = true,
+	switch_to_last_active_tab_when_closing_tab = true,
 	-- tabs
 	use_fancy_tab_bar = true,
 	hide_tab_bar_if_only_one_tab = false,
 	show_new_tab_button_in_tab_bar = true,
 	tab_max_width = 16,
 	show_tab_index_in_tab_bar = false,
+
+	initial_rows = 30,
+	initial_cols = 100,
 
 	colors = {
 		tab_bar = {
@@ -121,7 +141,7 @@ return {
 
 	color_scheme = scheme_for_appearance(wezterm.gui.get_appearance()),
 
-	window_background_opacity = 0.9,
+	window_background_opacity = 0.975,
 
 	window_padding = {
 		left = '2cell',
@@ -133,6 +153,8 @@ return {
 	window_decorations = "RESIZE|INTEGRATED_BUTTONS",
 	integrated_title_buttons = { 'Close' },
 	integrated_title_button_style = 'Gnome',
+	command_palette_fg_color = 'rgba(192, 202, 245, 1)',
+	command_palette_bg_color = 'rgba(26, 27, 38, 0.75)',
 
 	webgpu_power_preference = "HighPerformance",
 
@@ -147,6 +169,18 @@ return {
 			key = 'n', -- 'new'
 			mods = 'ALT',
 			action = wezterm.action.SpawnWindow
+		},
+
+		{
+			key = 'w',
+			mods = 'ALT',
+			action = wezterm.action.CloseCurrentPane { confirm = true },
+		},
+
+		{
+			key = 'q',
+			mods = 'CMD',
+			action = wezterm.action.CloseCurrentTab { confirm = true },
 		},
 
 		{
@@ -188,6 +222,24 @@ return {
 			key = 'f', -- 'fullscreen'
 			mods = 'ALT',
 			action = wezterm.action.ToggleFullScreen,
+		},
+
+		{
+			key = 'P',
+			mods = 'CTRL',
+			action = wezterm.action.ActivateCommandPalette,
+		},
+
+		{
+			key = '`',
+			mods = 'CTRL',
+			action = wezterm.action.ActivatePaneDirection 'Next',
+		},
+
+		{
+			key = 'o',
+			mods = 'ALT',
+			action = wezterm.action.EmitEvent 'toggle-opacity',
 		},
 	},
 }

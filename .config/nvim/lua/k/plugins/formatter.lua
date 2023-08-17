@@ -20,7 +20,20 @@ config = {                                                 -- global so i can ac
 		-- end
 	},
 	markdown = { util.withl(require('formatter.filetypes.markdown').prettierd) },
-	cpp = { util.withl(require('formatter.filetypes.cpp').clangd) },
+	cpp = {
+		util.withl(require('formatter.filetypes.cpp').clangd),
+		-- function()
+		-- 	return {
+		-- 		exe = "clang-format",
+		-- 		args = {
+		-- 			"-assume-filename",
+		-- 			util.escape_path(util.get_current_buffer_file_name()),
+		-- 		},
+		-- 		stdin = true,
+		-- 		try_node_modules = true,
+		-- 	}
+		-- end
+	},
 	['*'] = {
 		require('formatter.filetypes.any').remove_trailing_whitespace,
 	},
@@ -48,12 +61,13 @@ vim.keymap.set('n', 'gqb', -- format entire buffer
 			vim.o.formatexpr = 'v:lua vim.lsp.buf.format()'
 		elseif vim.bo.filetype ~= 'python' then
 			vim.cmd([[Format]])
-			vim.cmd([[autocmd BufWritePre * FormatWrite]])
+			vim.cmd([[autocmd BufWritePre * Format]])
 			vim.o.formatexpr = 'v:lua.Formatexpr()'
 		else
 			vim.cmd([[FormatLock]])
-			vim.cmd([[autocmd BufWritePre * FormatWriteLock]])
+			vim.cmd([[autocmd BufWritePost * FormatLock]])
 			vim.o.formatexpr = 'v:lua.Formatexpr()'
+			vim.bo.modifiable = true
 		end
 	end,
 	{ desc = '[gq]: format current [B]uffer' }

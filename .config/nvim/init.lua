@@ -64,6 +64,8 @@ vim.o.termguicolors = true
 vim.g.netrw_browse_split = 3
 vim.g.netrw_liststyle = 3
 vim.g.netrw_altv = 1 -- open vertical split on the right with 'v'
+vim.g.netrw_sort_options = "i"
+-- vim.g.netrw_banner = 0
 
 vim.o.wrap = false
 vim.o.linebreak = true
@@ -76,3 +78,5 @@ vim.o.pumheight = 12
 
 -- winbar (file info in the tabline even when no tabs)
 vim.o.winbar = '%n: %f %m [%l/%L]'
+
+vim.o.smoothscroll = true

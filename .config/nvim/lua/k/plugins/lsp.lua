@@ -64,10 +64,12 @@ local servers = {
 				analysis = {
 					autoSearchPaths = true,
 					diagnosticMode = 'workspace',
-					useLibraryCodeForTypes = true
-				}
+					typeCheckingMode = 'strict',
+					autoImportCompletions = true,
+				},
+				useLibraryCodeForTypes = true,
+				single_file_support = true,
 			},
-			single_file_support = true,
 		}
 	},
 	rust_analyzer = {},

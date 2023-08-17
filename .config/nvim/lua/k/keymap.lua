@@ -34,8 +34,8 @@ vim.keymap.set({ 'n' }, '<leader>sw', '<cmd>set wrap!<cr>', { noremap = true },
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
-vim.keymap.set('n', '<leader>D', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+-- vim.keymap.set('n', '<leader>D', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+vim.keymap.set('n', '<leader>qf', vim.diagnostic.setloclist, { desc = 'Open diagnostics in [q]uick [f]ix' })
 
 -- centre window for jumps
 -- vim.keymap.set('n', '{', '{zz')
@@ -43,14 +43,8 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 -- vim.keymap.set('n', 'N', 'Nzz')
 -- vim.keymap.set('n', 'n', 'nzz')
 
--- open file_browser with the path of the current buffer
-vim.keymap.set(
-	'n',
-	'<space>fb',
-	require 'telescope'.extensions.file_browser.file_browser,
-	{ desc = 'Telescope [f]ile [b]rowser' },
-	{ noremap = true }
-)
+
+
 
 -- format markdown tables (this is now done with prettierd using formatter.nvim)
 -- https://jcuenod.github.io/bibletech/2023/03/14/formatting-md-tables-in-neovim/
@@ -82,7 +76,20 @@ vim.keymap.set(
 -- compile md
 vim.keymap.set('n', '<leader>cm', '<cmd>!../../compile.sh %<cr>', { desc = 'Compile and open markdown document' })
 
--- quickfix
-vim.keymap.set('n', '<leader>qf', '<cmd>TroubleToggle quickfix<cr>',
-	{ desc = '[Q]uick[f]ix' }, { silent = true, noremap = true }
+-- [[ treesitter ]]
+
+vim.keymap.set("n",
+	"[p",
+	function()
+		require("treesitter-context").go_to_context()
+	end,
+	{ desc = "Goto [p]arent context" }
+)
+
+-- [[ lsp ]]
+
+vim.keymap.set("n",
+	"vr",
+	"<cmd>lua vim.lsp.buf.references()<CR>",
+	{ desc = "[v]iew [r]eference in quickfix" }
 )
