@@ -38,6 +38,23 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 	pattern = '*',
 })
 
+-- add filetypes
+vim.filetype.add({
+	extension = {
+		-- ["*.gp"] = "gnuplot",
+		-- ["*.gnuplot"] = "gnuplot",
+		-- ["*.cir"] = "spice",
+		-- ["*.ng"] = "spice",
+		-- ["*.ngspice"] = "spice",
+		-- ["*.spice"] = "spice",
+		gp = "gnuplot",
+		gnuplot = "gnuplot",
+		cir = "spice",
+		ng = "spice",
+		ngspice = "spice",
+	}
+})
+
 -- [[ format on save ]]
 -- vim.cmd [[autocmd BufWritePost * lua vim.lsp.buf.format()]]
 

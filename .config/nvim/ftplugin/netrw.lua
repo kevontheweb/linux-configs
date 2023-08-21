@@ -1,2 +1,2 @@
 -- [[  netrw ]]
-vim.keymap.set('n', '?', ':help netrw-quickmap<CR>', desc = { '[?] Help' })
+vim.keymap.set('n', 'g?', '<cmd>:help netrw-quickmap<CR>')

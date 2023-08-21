@@ -49,12 +49,22 @@ require('lazy').setup({
 		},
 
 
-		-- [[ FORMATTER ]]
-
-		{ 'mhartington/formatter.nvim' },
-
 		-- [[ AI ]]
-		{ 'Exafunction/codeium.vim' },
+		{
+			'Exafunction/codeium.vim',
+			event = "BufEnter",
+			config = function()
+				-- Change '<C-g>' here to any keycode you like.
+				vim.keymap.set('i', '<Tab>', function() return vim.fn['codeium#Accept']() end,
+					{ expr = true })
+				vim.keymap.set('i', '<c-;>', function() return vim.fn['codeium#CycleCompletions'](1) end,
+					{ expr = true })
+				vim.keymap.set('i', '<c-,>', function() return vim.fn['codeium#CycleCompletions'](-1) end,
+					{ expr = true })
+				vim.keymap.set('i', '<c-x>', function() return vim.fn['codeium#Clear']() end,
+					{ expr = true })
+			end
+		},
 
 
 		-- [[ GIT ]]
@@ -77,7 +87,19 @@ require('lazy').setup({
 		-- show pending keybinds
 		{
 			'folke/which-key.nvim',
-			opts = {}
+			event = "VeryLazy",
+			init = function()
+				vim.o.timeout = true
+				vim.o.timeoutlen = 250
+			end,
+			opts = {
+				window = {
+					border = "single", },
+				disable = {
+					buftypes = {},
+					filetypes = {},
+				},
+			}
 		},
 
 		-- 'gc' to comment visual regions/lines
@@ -161,6 +183,7 @@ require('lazy').setup({
 			dependencies = {
 				'folke/twilight.nvim'
 			},
+			event = "VeryLazy",
 			opts = {
 				window = {
 					width = 120,
@@ -189,6 +212,7 @@ require('lazy').setup({
 			},
 		},
 
+		-- discord integration
 		{
 			'andweeb/presence.nvim',
 			config = function()
@@ -255,18 +279,10 @@ require('lazy').setup({
 				pcall(require('nvim-treesitter.install').update { with_sync = true })
 			end,
 		},
-
-		{
-			'nvim-treesitter/nvim-treesitter',
-			event = 'CursorHold',
-			run = ':TSUpdate',
-			config = function()
-				pcall(require('nvim-treesitter.install').update { with_sync = true })
-			end,
-		},
 		{ 'nvim-treesitter/playground',                  after = 'nvim-treesitter' },
 		{ 'nvim-treesitter/nvim-treesitter-textobjects', after = 'nvim-treesitter' },
 		{ 'nvim-treesitter/nvim-treesitter-refactor',    after = 'nvim-treesitter' },
+		{ 'nvim-treesitter/nvim-treesitter-context',    after = 'nvim-treesitter' },
 
 
 		{
@@ -277,6 +293,17 @@ require('lazy').setup({
 			lazy = not vim.g.started_by_firenvim,
 			build = function()
 				vim.fn["firenvim#install"](0)
+			end,
+			config = function()
+				vim.api.nvim_create_autocmd({ 'UIEnter' }, {
+					callback = function(event)
+						local client = vim.api.nvim_get_chan_info(vim.v.event.chan).client
+						if client ~= nil and client.name == "Firenvim" then
+							vim.o.laststatus = 0
+							vim.o.winbar = ''
+						end
+					end
+				})
 			end
 		}
 	},
