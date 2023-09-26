@@ -1,0 +1,30 @@
+[colors]
+background = '#f2f4f8'
+foreground = '#161616'
+cursor_bg = '#161616'
+cursor_border = '#161616'
+cursor_fg = '#f2f4f8'
+
+ansi = [
+    '#dfdfe0', # black
+    '#ee5e96', # red 
+    '#25be6a', # green
+    '#08bdba', # yellow
+    '#78a9ff', # blue
+    '#be95ff', # magenta
+    '#33b1ff', # cyan
+    '#08bdba', # white
+]
+brights = [
+    '#dfdfe0', # black
+    '#ee5e96', # red 
+    '#25be6a', # green
+    '#08bdba', # yellow
+    '#78a9ff', # blue
+    '#be95ff', # magenta
+    '#33b1ff', # cyan
+    '#08bdba', # white
+]
+
+[metadata]
+name = 'Carbonfox Light'

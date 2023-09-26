@@ -1,3 +1,5 @@
+-- require'lspconfig'.pyright.setup{}
+
 local function got_output(channel, msg, name)
 	-- vim.fn.append(vim.fn.line('$') - 1, msg) -- append to lines under cursor in buffer
 	print(msg[1])
@@ -21,18 +23,28 @@ vim.keymap.set(
 
 -- vim.o.formatexpr = 'black %' -- enable range formatting for lsps that have formatting
 
+-- overwrite vim.lsp.buf.format() keybind
 vim.keymap.set(
 	'n',
-	'gqb',
+	'gq',
 	function()
 		vim.cmd.write()
 		local cwd = vim.fn.getcwd()
 		local filename = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
 		vim.fn.jobstart({ 'black', filename },
-			{ cwd = cwd, on_stderr = got_output, on_stdout = got_output,
-				on_exit = function() vim.cmd.edit(filename) end })
-		
+			{
+				cwd = cwd,
+				on_stderr = got_output,
+				on_stdout = got_output,
+				on_exit = function() vim.cmd.edit(filename) end
+			})
 	end,
 	{ desc = 'format python file using black' },
 	{ force = true }
 )
+
+-- format on save
+-- vim.api.nvim_create_autocmd("bufWritePost", {
+-- 	pattern = "*.py",
+-- 	command = "silent !black %",
+-- })

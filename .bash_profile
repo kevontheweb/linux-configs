@@ -9,3 +9,5 @@ fi
 . "$HOME/.cargo/env"
 
 if [ -e /home/kevin/.nix-profile/etc/profile.d/nix.sh ]; then . /home/kevin/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
+# pw-metadata -n settings 0 clock.force-rate 192000

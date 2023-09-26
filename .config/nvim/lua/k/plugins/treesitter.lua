@@ -17,7 +17,9 @@ require('nvim-treesitter.configs').setup {
 		'typescript',
 		'vim',
 		'lua',
+		'org',
 	},
+	additional_vim_regex_highlighting = { 'org' },
 
 	-- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
 	auto_install = true,
@@ -33,8 +35,20 @@ require('nvim-treesitter.configs').setup {
 			end
 		end,
 	},
-	indent = { enable = true, disable = { 'python' } },
-	incremental_selection = { enable = true },
+
+	indent = { enable = true, disable = { 'python'  } },
+
+	incremental_selection = {
+		enable = true,
+		keymaps = {
+			init_selection = 'gnn', -- set to `false` to disable one of the mappings
+			node_incremental = 'grn',
+			scope_incremental = 'grc',
+			node_decremental = 'grm',
+		},
+	},
+
+
 	refactor = {
 		highlight_definitions = {
 			enable = true,
@@ -49,6 +63,7 @@ require('nvim-treesitter.configs').setup {
 			},
 		},
 	},
+
 	textobjects = {
 		-- see https://github.com/nvim-treesitter/nvim-treesitter-textobjects for config, most of this is from examples
 		select = {
@@ -99,8 +114,25 @@ require('nvim-treesitter.configs').setup {
 				['[C'] = '@class.outer',
 			},
 		},
+		swap = {
+			enable = true,
+			swap_next = {
+				['<leader>a'] = '@parameter.inner',
+			},
+			swap_previous = {
+				['<leader>A'] = '@parameter.inner',
+			},
+		},
 	},
 }
+
+-- treesitter folding
+local function treesitter_folding()
+	vim.opt.foldmethod = 'expr'
+	vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+	-- vim.cmd [[set nofoldenable]]
+end
+-- treesitter_folding()
 
 local ts_repeat_move = require 'nvim-treesitter.textobjects.repeatable_move'
 
@@ -119,7 +151,19 @@ vim.keymap.set({ 'n', 'x', 'o' }, 'F', ts_repeat_move.builtin_F)
 vim.keymap.set({ 'n', 'x', 'o' }, 't', ts_repeat_move.builtin_t)
 vim.keymap.set({ 'n', 'x', 'o' }, 'T', ts_repeat_move.builtin_T)
 
-require'treesitter-context'.setup()
-vim.keymap.set("n", "[p", function()
-  require("treesitter-context").go_to_context()
-end, { silent = true }, {desc = "Go to parent context"})
+require 'treesitter-context'.setup({
+	enable = false, -- using barbeque
+	max_lines = 0,
+	min_window_height = 0,
+	line_numbers = true,
+	multiline_threshold = 20,
+	trim_scope = 'outer',
+	mode = 'topline',
+	separator = nil,
+	on_attach = function()
+		-- vim.cmd [[hi TreesitterContextBottom gui=underline guisp=Grey]]
+	end
+})
+vim.keymap.set('n', '[p', function()
+	require('treesitter-context').go_to_context()
+end, { silent = true }, { desc = 'Go to parent context' })

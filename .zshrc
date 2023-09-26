@@ -141,6 +141,11 @@ SAVEHIST=1000
 export BROWSER="firefox"
 export EDITOR="nvim"
 export PATH="${PATH}:${HOME}/bin:${HOME}/Applications:${HOME}/Applications/JUCE/Projucer:${HOME}/.local/bin"
+export PATH="$PATH:${HOME}/.config/nvim/lsps/"
+# export PAGER="nvim -R -c AnsiEsc -"
+export PAGER="less"
+export MANPAGER="less"
+
 
 #-----------------------------
 # Dircolors
@@ -182,9 +187,9 @@ alias h='history'
 
 alias mkdir='mkdir -p -v'
 # alias rm='trash-rm'
-alias v='nvim'
-alias vi='nvim'
-alias vim='nvim'
+# alias v='nvim'
+# alias vi='nvim'
+# alias vim='nvim'
 
 alias grep='grep --color=auto'
 
@@ -213,12 +218,16 @@ alias typst='$HOME/Applications/typst/target/release/typst'
 #
 # shortcuts
 alias esp='cd ~/Documents/Tuks/2023/ESP411/'
+alias epr-session='cd ~/Documents/Tuks/2023/EPR400/; nvim -S Session.vim'
 alias epr='cd ~/Documents/Tuks/2023/EPR400/'
+alias code='cd ~/Documents/Tuks/2023/EPR400/code'
 alias rust='cd ~/Documents/Rust'
+alias sites='cd ~/Documents/Web/Sites/'
 # CDPATH="$CDPATH:~/Documents/Tuks/2023/ESP411/:~/Documents/Tuks/2023/EPR400/:~/Documents/Tuks/Textbooks/:~/Downloads/"
 
 # my programs
 # alias socc='bash ~/Documents/Rust/scaling_and_offset_circuit_calculator/target/release/circuit_calculator'
+alias bela='sudo sshfs -o allow_other root@192.168.7.2:/root/Bela/ /mnt/bela && cd /mnt/bela'
 
 #------------------------------
 # ShellFuncs
@@ -288,6 +297,29 @@ export OCTAVE_SITE_INITFILE="$XDG_CONFIG_HOME/octave/octaverc"
 export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
 mkdir -p $XDG_CONFIG_HOME/java
 
+#colored man pages with less
+export LESS_TERMCAP_mb=$(tput bold; tput setaf 2) # green
+export LESS_TERMCAP_md=$(tput bold; tput setaf 6) # cyan
+export LESS_TERMCAP_me=$(tput sgr0)
+export LESS_TERMCAP_so=$(tput bold; tput setaf 3; tput setab 4) # yellow on blue
+export LESS_TERMCAP_se=$(tput rmso; tput sgr0)
+export LESS_TERMCAP_us=$(tput smul; tput bold; tput setaf 7) # white
+export LESS_TERMCAP_ue=$(tput rmul; tput sgr0)
+export LESS_TERMCAP_mr=$(tput rev)
+export LESS_TERMCAP_mh=$(tput dim)
+export LESS_TERMCAP_ZN=$(tput ssubm)
+export LESS_TERMCAP_ZV=$(tput rsubm)
+export LESS_TERMCAP_ZO=$(tput ssupm)
+export LESS_TERMCAP_ZW=$(tput rsupm)
+export GROFF_NO_SGR=1         # For Konsole and Gnome-terminal
+
+# Get color support for 'less'
+export LESS="--RAW-CONTROL-CHARS"
+
+# Use colors for less, man, etc.
+[[ -f ~/.LESS_TERMCAP ]] && . ~/.LESS_TERMCAP
+
+
 #------------------------------
 # functions
 #------------------------------
@@ -304,7 +336,10 @@ function newlb(){
 	echo "bibliography: ../project.bib" >> ${FILE_PATH}
 	echo "csl: ../ieee.csl" >> ${FILE_PATH}
 	echo "---" >> ${FILE_PATH}
+	cd $HOME/Documents/Tuks/2023/EPR400/lab_book/${FOLDER}/
+	nvim ${FILE_PATH}
 }
+
 
 
 # stuff that gets added for me

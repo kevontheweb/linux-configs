@@ -1,6 +1,5 @@
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
-local fb_actions = require "telescope._extensions.file_browser.actions"
 require('telescope').setup {
 	defaults = {
 		mappings = {
@@ -20,31 +19,12 @@ require('telescope').setup {
 			context_fallback = true,
 			wrap = false,
 		},
-		file_browser = {
-			hijack_netrw = false,
-			mappings = {
-				['n'] = {
-					['%'] = fb_actions.create,
-					['R'] = fb_actions.rename,
-					['m'] = fb_actions.move,
-					['y'] = fb_actions.copy,
-					['D'] = fb_actions.remove,
-					['o'] = fb_actions.open,
-					['~'] = fb_actions.goto_home_dir,
-					['-'] = fb_actions.goto_parent_dir,
-					['.'] = fb_actions.goto_cwd,
-					['c'] = fb_actions.change_cwd,
-					-- ['q'] = fb_actions.close
-				},
-			},
-		},
 	}
 
 }
 
 -- extensions
 pcall(require('telescope').load_extension('fzf'))
-pcall(require('telescope').load_extension('file_browser'))
 pcall(require('telescope').load_extension('bibtex'))
 
 local builtin = require('telescope.builtin')
@@ -75,13 +55,14 @@ vim.keymap.set(
 vim.keymap.set(
 	'n',
 	'<leader>/',
-	function()
-		-- You can pass additional configuration to telescope to change theme, layout, etc.
-		builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-			winblend = 10,
-			previewer = false,
-		})
-	end,
+	builtin.current_buffer_fuzzy_find,
+	-- function()
+	-- 	-- You can pass additional configuration to telescope to change theme, layout, etc.
+	-- 	builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+	-- 		winblend = 10,
+	-- 		previewer = false,
+	-- 	})
+	-- end,
 	{ desc = '[/] Fuzzily search in current buffer' }
 )
 
@@ -97,6 +78,13 @@ vim.keymap.set(
 	'<leader>fr',
 	builtin.lsp_references,
 	{ desc = 'Telescope: [f]ind [references]' }
+)
+
+vim.keymap.set(
+	'n',
+	'<leader>skm',
+	builtin.keymaps,
+	{ desc = 'Telescope: [S]earch [K]ey [M]ap' }
 )
 
 vim.keymap.set(
@@ -126,15 +114,6 @@ vim.keymap.set(
 	{ desc = 'Telescope: [S]earch [D]iagnostics' }
 )
 
--- open file_browser with the path of the current buffer
-vim.keymap.set(
-	'n',
-	'<leader>fb',
-	'<cmd>:Telescope file_browser<cr>', --	extensions.file_browser.file_browser(),
-	{ desc = 'Telescope [f]ile [b]rowser' },
-	{ noremap = true }
-)
-
 -- bib tex
 vim.keymap.set(
 	'n',
@@ -142,4 +121,21 @@ vim.keymap.set(
 	'<cmd>:Telescope bibtex<cr>', -- extensions.bibtex.bibtex(),
 	{ desc = '[sc]: search citations' },
 	{ noremap = true }
+)
+
+-- improved telescope keymaps
+vim.keymap.set('n',
+	'<leader>gr',
+	require('telescope.builtin').lsp_references,
+	{ buffer = bufnr, desc = 'LSP: [G]oto [R]eferences' }
+)
+vim.keymap.set('n',
+	'<leader>ds',
+	require('telescope.builtin').lsp_document_symbols,
+	{ buffer = bufnr, desc = 'LSP: [D]ocument [S]ymbols' }
+)
+vim.keymap.set('n',
+	'<leader>ws',
+	require('telescope.builtin').lsp_dynamic_workspace_symbols,
+	{ buffer = bufnr, desc = 'LSP: [W]orkspace [S]ymbols' }
 )

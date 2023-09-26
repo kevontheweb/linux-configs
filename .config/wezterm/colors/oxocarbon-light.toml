@@ -1,0 +1,58 @@
+[colors]
+background = '#f2f4f8'
+foreground = '#161616'
+cursor_bg = '#161616'
+cursor_border = '#161616'
+cursor_fg = '#ffffff'
+
+ansi = [
+    '#ffffff',
+    '#f2f2f2',
+    '#d0d0d0',
+    '#161616',
+    '#37474F',
+    '#90A4AE',
+    '#525252',
+    '#08bdba',
+]
+brights = [
+    '#ff7eb6',
+    '#ee5e96',
+    '#ff6f00',
+    '#0f62fe',
+    '#673ab7',
+    '#42be65',
+    '#be95ff',
+    '#ffab91',
+]
+
+[colors.tab_bar]
+background = "#ffffff"
+
+[colors.tab_bar.active_tab]
+bg_color = '#ffffff'
+fg_color = '#161616'
+intensity = 'Normal'
+italic = false
+strikethrough = false
+underline = 'None'
+
+[colors.tab_bar.inactive_tab]
+bg_color = '#ffffff'
+fg_color = '#262626'
+intensity = 'Normal'
+italic = false
+strikethrough = false
+underline = 'None'
+
+[colors.tab_bar.new_tab]
+bg_color = '#ffffff'
+fg_color = '#262626'
+intensity = 'Normal'
+italic = false
+strikethrough = false
+underline = 'None'
+
+[metadata]
+name = 'Oxocarbon Light'
+origin_url = 'https://github.com/nyoom-engineering/oxocarbon'

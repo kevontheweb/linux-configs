@@ -1,0 +1,30 @@
+[colors]
+background = '#161616'
+foreground = '#f2f4f8'
+cursor_bg = '#f2f4f8'
+cursor_border = '#f2f4f8'
+cursor_fg = '#161616'
+
+ansi = [
+    '#08bdba', # black
+    '#ee5e96', # red 
+    '#25be6a', # green
+    '#08bdba', # yellow
+    '#78a9ff', # blue
+    '#be95ff', # magenta
+    '#33b1ff', # cyan
+    '#dfdfe0', # white
+]
+brights = [
+    '#08bdba', # black
+    '#ee5e96', # red 
+    '#25be6a', # green
+    '#08bdba', # yellow
+    '#78a9ff', # blue
+    '#be95ff', # magenta
+    '#33b1ff', # cyan
+    '#dfdfe0', # white
+]
+
+[metadata]
+name = 'Carbonfox Dark'

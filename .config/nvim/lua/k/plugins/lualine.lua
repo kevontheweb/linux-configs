@@ -16,10 +16,10 @@ require('lualine').setup({
 			{ 'diff',  colored = false },
 		},
 		lualine_c = {
-			{ 'filename',   file_status = true, path = 4 },
-			{ 'diagnostics' },
+			{ 'filename', file_status = true, path = 4 },
 		},
 		lualine_x = {
+			'diagnostics',
 			'filetype',
 			'encoding',
 			'fileformat',

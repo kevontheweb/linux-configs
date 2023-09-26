@@ -37,7 +37,7 @@ wezterm.on('toggle-opacity', function(window, pane)
 	if overrides.window_background_opacity ~= 1 then
 		overrides.window_background_opacity = 1
 	else
-		overrides.window_background_opacity = 0.85
+		overrides.window_background_opacity = 0.925
 	end
 	window:set_config_overrides(overrides)
 end)
@@ -46,43 +46,92 @@ end)
 function scheme_for_appearance(appearance)
 	if appearance:find "Light" then
 		-- return "Catppuccin Latte"
-		-- return "Everforest Light (Gogh)"
-		-- return "Rosé Pine Dawn (base16)"
-		-- return 'Tokyo Night Day'
-		return 'Tokyo Night'
+		-- return 'Kanagawa (Gogh)'
+		-- return 'Tokyo Night'
+		return 'Oxocarbon Light'
+		-- return 'Borland'
+		-- return 'PhD (base16)'
+		-- return 'Carbonfox Light'
+		-- return 'wez'
 	else
 		-- return "Catppuccin Mocha"
-		-- return "Everforest Dark (Gogh)"
-		-- return "Rosé Pine (base16)"
-		return 'Tokyo Night'
+		-- return 'Kanagawa (Gogh)'
+		-- return 'Tokyo Night'
+		return 'Oxocarbon Dark'
+		-- return 'Carbonfox Dark'
+		-- return 'Borland'
+		-- return 'PhD (base16)'
+		-- return 'carbonfox'
+		-- return 'wez'
 	end
+end
+
+if get_appearance() == 'Dark' then
+	appearance = {
+		cmd_palette_fg_color = '#BDBDBD',
+		cmd_palette_bg_color = 'rgba(36, 36, 36, 1)',
+		inactive_tab_edge = '#575757',
+		bg_color = '#444444',
+		fg_color = '#BDBDBD',
+		alt_bg_color = '#303030',
+		alt_fg_color = '#BDBDBD',
+		active_titlebar_bg = '#303030',
+		inactive_titlebar_bg = '#242424',
+	}
+else
+	appearance = {
+		cmd_palette_fg_color = '#2F2F2F',
+		cmd_palette_bg_color = 'rgba(235, 235, 235, 1)',
+		inactive_tab_edge = '#D4D4D4',
+		bg_color = '#D4D4D4',
+		fg_color = '#2F2F2F',
+		alt_bg_color = '#EBEBEB',
+		alt_fg_color = '#949494',
+		active_titlebar_bg = '#EBEBEB',
+		inactive_titlebar_bg = '#FAFAFA',
+	}
 end
 
 return {
 	enable_scroll_bar = false,
 	default_cursor_style = 'BlinkingBlock',
-	animation_fps = 75,
-	cursor_blink_rate = 500,
+	animation_fps = 60,
+	cursor_blink_rate = 400,
+	force_reverse_video_cursor = true,
 	pane_focus_follows_mouse = true,
 	switch_to_last_active_tab_when_closing_tab = true,
 	-- tabs
 	use_fancy_tab_bar = true,
 	hide_tab_bar_if_only_one_tab = false,
 	show_new_tab_button_in_tab_bar = true,
-	tab_max_width = 16,
-	show_tab_index_in_tab_bar = false,
 
-	initial_rows = 30,
-	initial_cols = 100,
+	initial_rows = 34,
+	initial_cols = 120,
 
 	colors = {
 		tab_bar = {
 			-- The color of the inactive tab bar edge/divider
-			inactive_tab_edge = '#575757',
+			inactive_tab_edge = appearance.inactive_tab_edge,
+			inactive_tab = {
+				bg_color = appearance.alt_bg_color,
+				fg_color = appearance.alt_fg_color,
+			},
+			inactive_tab_hover = {
+				bg_color = appearance.bg_color,
+				fg_color = appearance.alt_fg_color,
+			},
 			active_tab = {
 				italic = true,
-				bg_color = '#444444',
-				fg_color = '#BDBDBD',
+				bg_color = appearance.bg_color,
+				fg_color = appearance.fg_color,
+			},
+			new_tab = {
+				bg_color = appearance.alt_bg_color,
+				fg_color = appearance.fg_color,
+			},
+			new_tab_hover = {
+				bg_color = appearance.bg_color,
+				fg_color = appearance.alt_fg_color,
 			},
 		},
 	},
@@ -96,8 +145,8 @@ return {
 	window_frame = {
 		font = wezterm.font 'Cantarell',
 		font_size = 12.0,
-		active_titlebar_bg = '#303030',
-		inactive_titlebar_bg = '#242424',
+		active_titlebar_bg = appearance.active_titlebar_bg,
+		inactive_titlebar_bg = appearance.inactive_titlebar_bg,
 	},
 
 	--[[ window_background_gradient = {
@@ -106,55 +155,105 @@ return {
 		orientation = { Linear = { angle = -45.0 } },
 	}, ]]
 
+	font_size = 12,
+	-- cell_width = 1.1,
 	font = wezterm.font_with_fallback {
 		{
-			family = 'Cascadia Code PL',
+			family = 'Maple Mono',
 			weight = 'Regular',
-			harfbuzz_features = { 'calt', 'ss01', 'ss20' }
+			harfbuzz_features = { 'cv01', 'ss01', 'ss02', 'ss03', 'ss04' }
 		},
-
+		{
+			family = 'Victor Mono',
+			weight = 'DemiBold',
+			harfbuzz_features = { 'ss01', 'ss05', 'ss07' }
+		},
+		{
+			family = 'IBM Plex Mono',
+			weight = 'DemiBold'
+		},
+		{
+			family = 'Terminus',
+			weight = 'Regular'
+		},
+		{
+			family = 'CozetteVector',
+		},
 		{
 			family = 'Fira Code',
-			weight = 'Regular',
+			weight = 'Medium',
 			harfbuzz_features = { 'cv01', 'cv06', 'cv09', 'zero', 'cv14', 'ss04', 'cv16', 'cv31', 'cv30',
 				'ss02', 'ss09', 'cv25', 'cv25', 'cv26', 'cv32', 'cv27', 'ss06', 'ss07' }
 		},
-
 		{
 			family = 'JetBrains Mono',
+			weight = 'DemiBold',
+			harfbuzz_features = { 'calt', 'clig', 'liga' },
+		},
+		{
+			family = 'Cascadia Mono PL',
 			weight = 'Regular',
-			harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' },
+			harfbuzz_features = { 'calt', 'ss01', 'ss20' }
 		},
-
 		{
-			family = 'Terminus',
-			weight = 'Medium'
+			family = 'Comic Mono',
+			weight = 'Regular',
 		},
-
 		{
-			family = 'Source Code Pro',
-			weight = 'Medium'
+			family = 'IBM Plex Mono',
+			weight = 'Medium',
 		},
-
-		'Noto Color Emoji',
 	},
+	--[[ font_rules = {
+		-- fall back on Cascadia Code for italics
+		{
+			intensity = 'Bold',
+			italic = true,
+			font = wezterm.font {
+				family = 'Cascadia Code PL',
+				weight = 'Bold',
+				style = 'Italic',
+				harfbuzz_features = { 'calt', 'ss01', 'ss20' }
+			},
+		},
+		{
+			intensity = 'Half',
+			italic = true,
+			font = wezterm.font {
+				family = 'Cascadia Code PL',
+				weight = 'Medium',
+				style = 'Italic',
+				harfbuzz_features = { 'calt', 'ss01', 'ss20' }
+			},
+		},
+		{
+			intensity = 'Normal',
+			italic = true,
+			font = wezterm.font {
+				family = 'Cascadia Code PL',
+				style = 'Italic',
+				harfbuzz_features = { 'calt', 'ss01', 'ss20' }
+			},
+		},
+	}, ]]
+
 
 	color_scheme = scheme_for_appearance(wezterm.gui.get_appearance()),
 
-	window_background_opacity = 0.975,
+	window_background_opacity = 1,
 
 	window_padding = {
-		left = '2cell',
-		right = '2cell',
+		left = '1cell',
+		right = '1cell',
 		top = '0.5cell',
 		bottom = '0.5cell',
 	},
 
-	window_decorations = "RESIZE|INTEGRATED_BUTTONS",
+	window_decorations = "INTEGRATED_BUTTONS",
 	integrated_title_buttons = { 'Close' },
 	integrated_title_button_style = 'Gnome',
-	command_palette_fg_color = 'rgba(192, 202, 245, 1)',
-	command_palette_bg_color = 'rgba(26, 27, 38, 0.75)',
+	command_palette_fg_color = appearance.cmd_palette_fg_color,
+	command_palette_bg_color = appearance.cmd_palette_bg_color,
 
 	webgpu_power_preference = "HighPerformance",
 
@@ -231,7 +330,7 @@ return {
 		},
 
 		{
-			key = '`',
+			key = '~',
 			mods = 'CTRL',
 			action = wezterm.action.ActivatePaneDirection 'Next',
 		},

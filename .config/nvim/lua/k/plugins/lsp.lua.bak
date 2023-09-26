@@ -1,0 +1,421 @@
+-- -- LSP settings.
+-- -- to do :
+-- -- [] get rid of mason (i dont install new lsps all the time)
+--
+-- -- [ KEYMAPS ]
+-- --  This function gets run when an LSP connects to a particular buffer.
+--
+-- -- diagnostics
+-- vim.keymap.set('n', 'KD', vim.diagnostic.open_float)
+-- vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
+-- vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+-- -- vim.keymap.set('n', '[e', vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }))
+-- -- vim.keymap.set('n', ']e', vim.diagnostic.goto_next({severity = vim.diagnostic.severity.E}))
+--
+-- -- quickfix (see :h cfilter, cdo, cnext, etc)
+-- vim.cmd [[packadd cfilter]]
+-- vim.keymap.set('n', '<leader>q', vim.diagnostic.setqflist)   -- fill qf list with diagnostics
+-- vim.keymap.set('n', '<leader>l', vim.diagnostic.setloclist)  -- fill loclist with diagnostics
+-- vim.keymap.set('n',
+-- 	-- toggle quickfix
+-- 	'<leader>qf',
+-- 	function()
+-- 		local winid = vim.fn.getqflist({ winid = 0 }).winid
+-- 		if winid ~= 0 then
+-- 			vim.cmd.cclose()
+-- 		else
+-- 			-- vim.diagnostic.setqflist()
+-- 			vim.cmd.copen()
+-- 		end
+-- 	end,
+-- 	-- '<CMD>lua require"k.utils".toggle_qf("q")<CR>',
+-- 	{ desc = 'Open diagnostics in [Q]uick[f]ix' }
+-- )
+--
+-- vim.keymap.set('n',
+-- 	-- toggle locallist
+-- 	'<leader>ll',
+-- 	function()
+-- 		local winid = vim.fn.getloclist(0, { winid = 0 }).winid
+-- 		if winid ~= 0 then
+-- 			vim.cmd.lclose()
+-- 		else
+-- 			-- vim.diagnostic.setloclist()
+-- 			vim.cmd.lopen()
+-- 		end
+-- 	end,
+-- 	{ desc = 'Open diagnostics in [l]ocal[l]ist' }
+-- )
+-- vim.keymap.set('n', ']q', vim.cmd.cnext)  -- quickfix
+-- vim.keymap.set('n', '[q', vim.cmd.cprev)
+-- vim.keymap.set('n', ']l', vim.cmd.lnext)  -- loclist
+-- vim.keymap.set('n', '[l', vim.cmd.lprev)
+--
+-- local on_attach = function(_, bufnr)
+-- 	-- lsp keympas
+-- 	vim.keymap.set({ 'n', 'v' },
+-- 		'<leader>ca',
+-- 		vim.lsp.buf.code_action,
+-- 		{ buffer = bufnr, desc = 'LSP: [G]oto [C]ode [A]ctions' }
+-- 	)
+-- 	vim.keymap.set('n',
+-- 		'gD',
+-- 		vim.lsp.buf.declaration,
+-- 		{ buffer = bufnr, desc = 'LSP: [G]oto [D]eclaration' }
+-- 	)
+-- 	vim.keymap.set('n',
+-- 		'gd',
+-- 		vim.lsp.buf.definition,
+-- 		{ buffer = bufnr, desc = 'LSP: [G]oto [D]efinition' }
+-- 	)
+-- 	vim.keymap.set('n', -- this gets run when there is an lsp and should override the treesitter one (must have treesitter before lsp in requires in the inti.lua)
+-- 		'<leader>rn',
+-- 		vim.lsp.buf.rename,
+-- 		{ buffer = bufnr, desc = 'LSP: [R]e[N]ame', remap = true }
+-- 	)
+-- 	vim.keymap.set("n",
+-- 		"gr",
+-- 		vim.lsp.buf.references,
+-- 		{ desc = "LSP: [G]o to [R]eference in quickfix" }
+-- 	)
+-- 	vim.keymap.set("n",
+-- 		"gO",
+-- 		vim.lsp.buf.document_symbol,
+-- 		{ desc = "LSP: [G]o to [R]eference in quickfix" }
+-- 	)
+-- 	vim.keymap.set('n',
+-- 		'gI',
+-- 		vim.lsp.buf.implementation,
+-- 		{ buffer = bufnr, desc = 'LSP: [G]oto [I]mplementation' }
+-- 	)
+-- 	vim.keymap.set('n',
+-- 		'<leader>D',
+-- 		vim.lsp.buf.type_definition,
+-- 		{ buffer = bufnr, desc = 'LSP: Ty[p]e definition' }
+-- 	)
+--
+-- 	-- hovers
+-- 	vim.keymap.set('n',
+-- 		'K',
+-- 		vim.lsp.buf.hover,
+-- 		{ buffer = bufnr, desc = 'LSP: Hover Documentation' }
+-- 	)
+-- 	vim.keymap.set('n',
+-- 		'<C-k>',
+-- 		vim.lsp.buf.signature_help,
+-- 		{ buffer = bufnr, desc = 'LSP: Signature Documentation' }
+-- 	)
+-- 	vim.keymap.set('n',
+-- 		'Kd',
+-- 		vim.lsp.util.preview_location,
+-- 		{ buffer = bufnr, desc = 'LSP: [K] hover [D]efinition' }
+-- 	)
+--
+-- 	-- workspace stuff
+-- 	vim.keymap.set('n',
+-- 		'<leader>wa',
+-- 		vim.lsp.buf.add_workspace_folder,
+-- 		{ buffer = bufnr, desc = 'LSP: [W]orkspace [A]dd Folder' }
+-- 	)
+-- 	vim.keymap.set('n',
+-- 		'<leader>wr',
+-- 		vim.lsp.buf.remove_workspace_folder,
+-- 		{ buffer = bufnr, desc = 'LSP: [W]orkspace [R]emove Folder' }
+-- 	)
+-- 	vim.keymap.set('n',
+-- 		'<leader>wl',
+-- 		function()
+-- 			print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+-- 		end,
+-- 		{ buffer = bufnr, desc = 'LSP: [W]orkspace [L]ist Folders' }
+-- 	)
+-- 	-- formatting
+-- 	vim.keymap.set('n', 'gq', function()
+-- 		vim.lsp.buf.format { async = true }
+-- 	end, opts)
+--
+-- 	-- if client.supports_method("textDocument/formatting") then
+-- 	-- vim.cmd([[autocmd BufWritePre * lua vim.lsp.buf.format()]]) -- on save
+-- 	-- vim.o.formatexpr = 'v:lua vim.lsp.buf.format()' -- enable range formatting for lsps that have formatting
+-- 	-- vim.keymap.set('n', 'gq',                -- format entire buffer
+-- 	-- 	function()
+-- 	-- 		vim.lsp.buf.format()
+-- 	-- 	end,
+-- 	-- 	{ desc = '[gq]: format current [B]uffer' }
+-- 	-- )
+-- 	-- end
+-- end
+--
+-- -- [ MASON ]
+-- -- Enable the following language servers
+-- --  Add any additional override configuration in the following tables. They will be passed to
+-- --  the `settings` field of the server config. You must look up that documentation yourself.
+-- local servers = {
+-- 	clangd = {
+-- 		root_dir = [[
+--         root_pattern(
+--           '.clangd',
+--           '.clang-tidy',
+--           '.clang-format',
+--           'compile_commands.json',
+--           'compile_flags.txt',
+--           'configure.ac',
+--           '.git'
+--         )
+--       ]],
+-- 		capabilities = [[default capabilities, with offsetEncoding utf-8]],
+-- 	},
+-- 	pyright = {
+-- 		{
+-- 			python = {
+-- 				analysis = {
+-- 					autoSearchPaths = true,
+-- 					diagnosticMode = 'workspace',
+-- 					typeCheckingMode = 'strict',
+-- 					autoImportCompletions = true,
+-- 				},
+-- 				useLibraryCodeForTypes = true,
+-- 				single_file_support = true,
+-- 			},
+-- 		}
+-- 	},
+-- 	rust_analyzer = {},
+-- 	lua_ls = {
+-- 		Lua = {
+-- 			workspace = { checkThirdParty = false },
+-- 			telemetry = { enable = false },
+-- 		},
+-- 	},
+-- 	-- ltex = {},
+-- 	texlab = {},
+-- 	marksman = {},
+-- 	-- webdev stuff i dont even use
+-- 	tsserver = {},
+-- 	html = {},
+-- 	cssls = {},
+-- 	emmet_ls = {},
+-- 	jsonls = {},
+-- }
+--
+-- -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+--
+-- -- Setup mason so it can manage external tooling
+-- require('mason').setup()
+--
+-- -- Ensure the servers above are installed
+-- local mason_lspconfig = require 'mason-lspconfig'
+--
+-- mason_lspconfig.setup {
+-- 	ensure_installed = vim.tbl_keys(servers),
+-- }
+--
+-- mason_lspconfig.setup_handlers {
+-- 	function(server_name)
+-- 		require('lspconfig')[server_name].setup {
+-- 			capabilities = capabilities,
+-- 			on_attach = on_attach,
+-- 			settings = servers[server_name],
+-- 		}
+-- 	end,
+-- 	-- override settings for texlab
+-- 	['texlab'] = function()
+-- 		require('lspconfig')['texlab'].setup {
+-- 			capabilities = capabilities,
+-- 			on_attach = on_attach,
+-- 			settings = servers['texlab'],
+-- 			-- 'filetypes' is set outside of 'setttings'
+-- 			filetypes = { 'markdown', 'bib', 'plaintex', 'latex' },
+-- 		}
+-- 	end
+-- }
+--
+-- -- [ nicer UI ]
+-- -- https://github.com/neovim/nvim-lspconfig/wiki/UI-customization
+-- -- set floating window properties
+-- local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+-- function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+-- 	opts = opts or {}
+-- 	opts.border = 'rounded'         -- 'double', 'straight'
+-- 	opts.max_width = opts.max_width or 120 -- max width 120
+-- 	return orig_util_open_floating_preview(contents, syntax, opts, ...)
+-- end
+--
+-- vim.diagnostic.config({
+-- 	virtual_text = {
+-- 		format = function(diagnostic)
+-- 			local lines = vim.split(diagnostic.message, '\n')
+-- 			return lines[1]
+-- 		end,
+-- 		virt_text_pos = 'right_align',
+-- 		-- virt_text_win_col = 120,
+-- 		suffix = ' ',
+-- 		prefix = '●',
+-- 		-- spacing = 8,
+-- 	},
+-- 	signs = true,
+-- 	underline = true,
+-- 	update_in_insert = true, -- update diagnostics in insert mode (not default)
+-- 	severity_sort = true,
+-- 	float = { border = "rounded", max_width = 120 },
+-- })
+--
+-- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+-- 	vim.lsp.handlers.hover,
+-- 	{ border = "rounded", max_width = 120 }
+-- )
+--
+-- -- icons for status column
+-- local signs = { Error = "✗ ", Warn = "⚠ ", Hint = "➤ ", Info = "🛈 " }
+-- for type, icon in pairs(signs) do
+-- 	local hl = "DiagnosticSign" .. type
+-- 	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+-- end
+
+
+lspconfig = require('lspconfig')
+lspconfig.marksman.setup {}
+lspconfig.prosemd_lsp.setup {}
+lspconfig.pyright.setup {
+	-- settings = {
+	-- 	python = {
+	-- 		analysis = {
+	-- 			autoSearchPaths = true,
+	-- 			diagnosticMode = 'workspace',
+	-- 			typeCheckingMode = 'strict',
+	-- 			autoImportCompletions = true,
+	-- 		},
+	-- 	},
+	-- 	useLibraryCodeForTypes = true,
+	-- 	single_file_support = true,
+	-- }
+}
+lspconfig.lua_ls.setup {}
+lspconfig.clangd.setup {}
+lspconfig.rust_analyzer.setup {
+	settings = {
+		['rust-analyzer'] = {},
+	},
+}
+
+vim.keymap.set('n', 'KD', vim.diagnostic.open_float)
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+-- vim.keymap.set('n', '[e', vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }))
+-- vim.keymap.set('n', ']e', vim.diagnostic.goto_next({severity = vim.diagnostic.severity.E}))
+
+vim.cmd [[packadd cfilter]]
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setqflist)  -- fill qf list with diagnostics
+vim.keymap.set('n', '<leader>l', vim.diagnostic.setloclist) -- fill loclist with diagnostics
+vim.keymap.set('n',
+	-- toggle quickfix
+	'<leader>qf',
+	function()
+		local winid = vim.fn.getqflist({ winid = 0 }).winid
+		if winid ~= 0 then
+			vim.cmd.cclose()
+		else
+			-- vim.diagnostic.setqflist()
+			vim.cmd.copen()
+		end
+	end,
+	-- '<CMD>lua require"k.utils".toggle_qf("q")<CR>',
+	{ desc = 'Open diagnostics in [Q]uick[f]ix' }
+)
+
+vim.keymap.set('n',
+	-- toggle locallist
+	'<leader>ll',
+	function()
+		local winid = vim.fn.getloclist(0, { winid = 0 }).winid
+		if winid ~= 0 then
+			vim.cmd.lclose()
+		else
+			-- vim.diagnostic.setloclist()
+			vim.cmd.lopen()
+		end
+	end,
+	{ desc = 'Open diagnostics in [Q]uick[f]ix' }
+)
+
+vim.keymap.set("n", "gO", vim.lsp.buf.document_symbol, { noremap = true })
+
+vim.keymap.set('n', ']q', vim.cmd.cnext) -- quickfix
+vim.keymap.set('n', '[q', vim.cmd.cprev)
+vim.keymap.set('n', ']l', vim.cmd.lnext) -- loclist
+vim.keymap.set('n', '[l', vim.cmd.lprev)
+
+vim.api.nvim_create_autocmd('LspAttach', {
+	group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+	callback = function(ev)
+		-- Enable completion triggered by <c-x><c-o>
+		vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+
+		-- Buffer local mappings.
+		-- See `:help vim.lsp.*` for documentation on any of the below functions
+		local opts = { buffer = ev.buf }
+		vim.keymap.set('n', 'gC', vim.lsp.buf.code_action)
+		vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+		vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+		vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+		vim.keymap.set('n', 'Kd', vim.lsp.util.preview_location)
+		vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+		vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+		vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
+		vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
+		vim.keymap.set('n', '<leader>wl', function()
+			print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+		end, opts)
+		vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
+		vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+		vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
+		vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+		vim.keymap.set('n', 'gq', function()
+			vim.lsp.buf.format { async = true }
+		end, opts)
+	end,
+})
+
+-- nicer UI
+-- https://github.com/neovim/nvim-lspconfig/wiki/UI-customization
+-- set floating window properties
+local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+	opts = opts or {}
+	opts.border = 'rounded'         -- 'double', 'straight'
+	opts.max_width = opts.max_width or 120 -- max width 120
+	return orig_util_open_floating_preview(contents, syntax, opts, ...)
+end
+
+local signs = { Error = "✗ ", Warn = "⚠ ", Hint = "➤ ", Info = "🛈 " }
+
+vim.diagnostic.config({
+	virtual_text = {
+		format = function(diagnostic)
+			local lines = vim.split(diagnostic.message, '\n')
+			return lines[1]
+		end,
+		virt_text_pos = 'right_align',
+		-- virt_text_win_col = 120,
+		suffix = ' ',
+		prefix = '●',
+		-- spacing = 8,
+	},
+	signs = true,
+	underline = true,
+	update_in_insert = true, -- update diagnostics in insert mode (not default)
+	severity_sort = true,
+	float = { border = "rounded", max_width = 120 },
+})
+
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+	vim.lsp.handlers.hover,
+	{ border = "rounded", max_width = 120 }
+)
+
+-- icons for status column
+for type, icon in pairs(signs) do
+	local hl = "DiagnosticSign" .. type
+	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
