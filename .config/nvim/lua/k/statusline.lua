@@ -1,3 +1,6 @@
+-- [[ Status Line ]]
+
+-- git branch
 function os.capture(cmd, raw)
 	local f = assert(io.popen(cmd, 'r'))
 	local s = assert(f:read('*a'))
@@ -18,9 +21,11 @@ function status_line_git_branch()
 	end
 end
 
+-- diagnostics
 function status_line_diagnostics()
-	-- local signs = { Error = "✗:", Warn = "⚠:", Hint = "➤:", Info = "🛈 :" }
 	local signs = { Error = "E:", Warn = "W:", Hint = "H:", Info = "I:" }
+	-- local signs = { Error = "✗:", Warn = "⚠:", Hint = "➤:", Info = "🛈 :" }
+	-- local signs = { Error = "⛔ ", Warn = "⚠️ ", Hint = "📎 ", Info = "ℹ️ " }
 	if #vim.diagnostic.get() > 0 then
 		return
 		    "%#Comment#" .. " " .. "%#DiagnosticSignError#" ..
@@ -40,6 +45,7 @@ function status_line_diagnostics()
 	end
 end
 
+-- status line
 function status_line()
 	return table.concat {
 		"%#StatusLeft#",
@@ -66,9 +72,8 @@ function status_line()
 end
 
 vim.opt.statusline = status_line() -- "%!luaeval('status_line()')"
-
 local statusline = vim.api.nvim_create_augroup("Statusline", { clear = true })
-vim.api.nvim_create_autocmd("InsertLeave", {
+vim.api.nvim_create_autocmd("CursorHold", {
 	group = statusline,
 	desc = "update statusline",
 	pattern = "*",

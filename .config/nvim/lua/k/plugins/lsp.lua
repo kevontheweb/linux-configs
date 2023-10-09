@@ -1,41 +1,27 @@
+-- [[ LSP ]]
 -- https://dx13.co.uk/articles/2023/04/24/neovim-lsp-without-plugins/
---
 local lspconfig = require('lspconfig')
-lspconfig.marksman.setup {} -- copied binary to .config/nvim/lua/lsps/
-lspconfig.prosemd_lsp.setup {} -- copied binary to .config/nvim/lua/lsps/
-lspconfig.pyright.setup { -- installed with pip
-	settings = {
-		python = {
-			analysis = {
-				autoSearchPaths = true,
-				diagnosticMode = 'workspace',
-				typeCheckingMode = 'strict',
-				autoImportCompletions = true,
-			},
-		},
-		useLibraryCodeForTypes = true,
-		single_file_support = true,
-	}
-}
-lspconfig.lua_ls.setup {} -- installed with dnf (maybe a copr repo, can't remember)
-lspconfig.clangd.setup {} -- installed with dnf
-lspconfig.rust_analyzer.setup { -- installed with rustup
-	settings = {
-		['rust-analyzer'] = {},
-	},
-}
+lspconfig.marksman.setup {}      -- copied binary to .config/nvim/lua/lsps/
+lspconfig.prosemd_lsp.setup {}   -- copied binary to .config/nvim/lua/lsps/
+lspconfig.pyright.setup {}       -- installed with pip
+lspconfig.lua_ls.setup {}        -- installed with dnf (maybe a copr repo, can't remember)
+lspconfig.clangd.setup {}        -- installed with dnf
+lspconfig.rust_analyzer.setup {} -- installed with rustup
 
+-- diagnostic keymaps (always mapped)
 vim.keymap.set('n', 'KD', vim.diagnostic.open_float, { desc = 'Show diagnostics hover' })
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic' })
 vim.keymap.set('n', '[e', '<cmd>lua vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })<cr>',
 	{ desc = 'Go to previous error' })
 vim.keymap.set('n', ']e', '<cmd>lua vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.E })<cr>',
-	{ desc = 'Go to previous error' })                                                                                                  -- only works as a vim cmd not straight lua 🤷
+	{ desc = 'Go to next error' }) -- only works as a vim cmd not straight lua 🤷
 
+-- quickfix
 vim.cmd [[packadd cfilter]]
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setqflist, { desc = 'Fill qf list with diagnostics' })  -- fill qf list with diagnostics
 vim.keymap.set('n', '<leader>l', vim.diagnostic.setloclist, { desc = 'Fill loclist with diagnostics' }) -- fill loclist with diagnostics
+
 vim.keymap.set('n',
 	-- toggle quickfix
 	'<leader>qf',
@@ -48,7 +34,6 @@ vim.keymap.set('n',
 			vim.cmd.copen()
 		end
 	end,
-	-- '<CMD>lua require"k.utils".toggle_qf("q")<CR>',
 	{ desc = 'toggle quickfix list' }
 )
 
@@ -67,29 +52,43 @@ vim.keymap.set('n',
 	{ desc = 'toggle local list' }
 )
 
-vim.keymap.set("n", "gO", vim.lsp.buf.document_symbol, { noremap = true }, { desc = "Show document symbols in quickfix list" })
-
 vim.keymap.set('n', ']q', vim.cmd.cnext, { desc = 'Next quickfix' }) -- quickfix
 vim.keymap.set('n', '[q', vim.cmd.cprev, { desc = 'Previous quickfix' })
-vim.keymap.set('n', ']l', vim.cmd.lnext, { desc = 'Next loclist' }) -- loclist
+vim.keymap.set('n', ']l', vim.cmd.lnext, { desc = 'Next loclist' })  -- loclist
 vim.keymap.set('n', '[l', vim.cmd.lprev, { desc = 'Previous loclist' })
 
-vim.api.nvim_create_autocmd('LspAttach', {
-	group = vim.api.nvim_create_augroup('UserLspConfig', {}),
-	callback = function(ev)
-		-- Enable completion triggered by <c-x><c-o>
-		vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+vim.keymap.set("n", "gO", vim.lsp.buf.document_symbol, { noremap = true },
+	{ desc = "Show document symbols in quickfix list" })
+
+-- keymaps for LSP (only active if LSP attaches)
+vim.api.nvim_create_autocmd("LspAttach", {
+	callback = function(args)
+		local bufnr = args.buf
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		if client.server_capabilities.completionProvider then
+			-- Enable completion triggered by <c-x><c-o>
+			vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
+		end
+		if client.server_capabilities.definitionProvider then
+			vim.bo[bufnr].tagfunc = "v:lua.vim.lsp.tagfunc"
+		end
 
 		-- Buffer local mappings.
 		-- See `:help vim.lsp.*` for documentation on any of the below functions
-		local opts = { buffer = ev.buf }
+		local opts = { buffer = bufnr }
 		vim.keymap.set('n', 'gC', vim.lsp.buf.code_action, opts, { desc = 'Code action' })
+		-- vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts, { desc = 'LSP Code Action' })
 		vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts, { desc = 'Show declaration' })
 		vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts, { desc = 'Show definition' })
 		vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts, { desc = 'Show hover' })
 		vim.keymap.set('n', 'Kd', vim.lsp.util.preview_location, opts, { desc = 'Show location' })
 		vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts, { desc = 'Show implementation' })
 		vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts, { desc = 'Show signature help' })
+		vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts, { desc = 'Show type definition' })
+		vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts, { desc = 'LSP Rename' })
+		vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts, { desc = 'LSP References' })
+
+				-- workspace stuff
 		vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts,
 			{ desc = 'Add workspace folder' })
 		vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts,
@@ -97,13 +96,13 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		vim.keymap.set('n', '<leader>wl', function()
 			print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 		end, opts, { desc = 'List workspace folders' })
-		vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts, { desc = 'Show type definition' })
-		vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts, { desc = 'LSP Rename' })
-		vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts, { desc = 'LSP Code Action' })
-		vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts, { desc = 'LSP References' })
-		vim.keymap.set({'n', 'v'}, 'gq', function()
-			vim.lsp.buf.format { async = true }
-		end, opts, { desc = 'LSP Format' })
+
+		-- only use lsp.buf.format if the client supports formatting
+		if client.server_capabilities.documentFormattingProvider then
+			vim.keymap.set({ 'n', 'v' }, 'gq', function()
+				vim.lsp.buf.format { async = true }
+			end, opts, { desc = 'LSP Format' })
+		end
 	end,
 })
 
@@ -117,7 +116,6 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
 	opts.max_width = opts.max_width or 120 -- max width 120
 	return orig_util_open_floating_preview(contents, syntax, opts, ...)
 end
-
 
 vim.diagnostic.config({
 	virtual_text = {
@@ -143,12 +141,14 @@ vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
 	{ border = "rounded", max_width = 120 }
 )
 
+local signs = { Error = "E ", Warn = "W ", Hint = "H ", Info = "I " }
 -- local signs = { Error = "✗ ", Warn = "⚠ ", Hint = "➤ ", Info = "🛈 " }
+-- local signs = { Error = "⛔ ", Warn = "⚠️ ", Hint = "📎 ", Info = "ℹ️ " }
 -- local signs = { Error = "█", Warn = "█", Hint = "█", Info = "█" }
-local signs = { Error = "▌", Warn = "▌", Hint = "▌", Info = "▌" }
+-- local signs = { Error = "▌", Warn = "▌", Hint = "▌", Info = "▌" }
 
 -- icons for status column
--- for type, icon in pairs(signs) do
--- 	local hl = "DiagnosticSign" .. type
--- 	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
--- end
+for type, icon in pairs(signs) do
+	local hl = "DiagnosticSign" .. type
+	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end

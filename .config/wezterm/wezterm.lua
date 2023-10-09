@@ -47,8 +47,8 @@ function scheme_for_appearance(appearance)
 	if appearance:find "Light" then
 		-- return "Catppuccin Latte"
 		-- return 'Kanagawa (Gogh)'
-		-- return 'Tokyo Night'
-		return 'Oxocarbon Light'
+		return 'Tokyo Night'
+		-- return 'Oxocarbon Light'
 		-- return 'Borland'
 		-- return 'PhD (base16)'
 		-- return 'Carbonfox Light'
@@ -56,8 +56,8 @@ function scheme_for_appearance(appearance)
 	else
 		-- return "Catppuccin Mocha"
 		-- return 'Kanagawa (Gogh)'
-		-- return 'Tokyo Night'
-		return 'Oxocarbon Dark'
+		return 'Tokyo Night'
+		-- return 'Oxocarbon Dark'
 		-- return 'Carbonfox Dark'
 		-- return 'Borland'
 		-- return 'PhD (base16)'
@@ -158,6 +158,21 @@ return {
 	font_size = 12,
 	-- cell_width = 1.1,
 	font = wezterm.font_with_fallback {
+		-- {
+		--
+		-- 	family = 'Recursive Mn Csl St',
+		-- 	weight = 'Regular',
+		-- 	harfbuzz_features = { 'dlig', 'ss20', 'liga', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss07', 'ss08', 'ss09', 'ss11', 'ss12' }
+		-- },
+		-- {
+		-- 	family = 'Comic Mono',
+		-- 	weight = 'Regular',
+		-- },
+		{
+			family = 'Cascadia Mono PL',
+			weight = 'Regular',
+			harfbuzz_features = { 'calt', 'ss01', 'ss20' }
+		},
 		{
 			family = 'Maple Mono',
 			weight = 'Regular',
@@ -189,15 +204,6 @@ return {
 			family = 'JetBrains Mono',
 			weight = 'DemiBold',
 			harfbuzz_features = { 'calt', 'clig', 'liga' },
-		},
-		{
-			family = 'Cascadia Mono PL',
-			weight = 'Regular',
-			harfbuzz_features = { 'calt', 'ss01', 'ss20' }
-		},
-		{
-			family = 'Comic Mono',
-			weight = 'Regular',
 		},
 		{
 			family = 'IBM Plex Mono',

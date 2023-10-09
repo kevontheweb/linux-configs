@@ -1,7 +1,11 @@
-vim.o.spell = true
+-- [[ markdown ]]
 require 'lspconfig'.marksman.setup {}
 require 'lspconfig'.prosemd_lsp.setup {}
 -- require 'lspconfig'.remark_ls.setup {}
+
+vim.b.wrap = true
+vim.b.textwidth = 80
+vim.o.spell = true
 
 vim.g.markdown_fenced_languages = {
 	"bash=sh",
@@ -27,18 +31,10 @@ vim.g.markdown_fenced_languages = {
 	"bibtex",
 }
 
--- compile md
-vim.keymap.set('n', '<leader>mk', '<cmd>!../../compile.sh %<cr>', { desc = 'Compile and open markdown document' })
-
-vim.b.wrap = true
-vim.b.textwidth = 80
-
-vim.keymap.set(
-	{ 'n', 'v' },
-	'gqp',
-	'%!prettier --stdin-filepath %<CR>',
-	{ desc = 'Format markdown' },
-	{ noremap = true }
+vim.keymap.set('n', '<leader>mk',
+	'<cmd>!pandoc % -f markdown+bracketed_spans -t pdf --csl ~/Documents/Tuks/2023/EPR400/ieee.csl -V geometry:margin=1.5cm -V geometry:paper=a4paper --pdf-engine lualatex -C -so "%:r.pdf" && xdg-open %:r.pdf<cr>',
+	{ desc = 'Compile and open markdown document' }
 )
 
-vim.cmd [[setlocal formatprg=prettier\ --stdin]]
+-- prettier formatting with gq
+vim.bo.formatprg='prettier --stdin-filepath %'

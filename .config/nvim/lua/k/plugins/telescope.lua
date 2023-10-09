@@ -1,4 +1,4 @@
--- [[ Configure Telescope ]]
+-- [[ Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
 	defaults = {
@@ -57,7 +57,6 @@ vim.keymap.set(
 	'<leader>/',
 	builtin.current_buffer_fuzzy_find,
 	-- function()
-	-- 	-- You can pass additional configuration to telescope to change theme, layout, etc.
 	-- 	builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
 	-- 		winblend = 10,
 	-- 		previewer = false,
@@ -123,17 +122,19 @@ vim.keymap.set(
 	{ noremap = true }
 )
 
--- improved telescope keymaps
+-- improved lsp telescope keymaps
 vim.keymap.set('n',
 	'<leader>gr',
 	require('telescope.builtin').lsp_references,
 	{ buffer = bufnr, desc = 'LSP: [G]oto [R]eferences' }
 )
+
 vim.keymap.set('n',
 	'<leader>ds',
 	require('telescope.builtin').lsp_document_symbols,
 	{ buffer = bufnr, desc = 'LSP: [D]ocument [S]ymbols' }
 )
+
 vim.keymap.set('n',
 	'<leader>ws',
 	require('telescope.builtin').lsp_dynamic_workspace_symbols,

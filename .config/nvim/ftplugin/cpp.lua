@@ -1,4 +1,9 @@
+-- [[ c++ ]]
 require'lspconfig'.clangd.setup{}
+
+vim.o.tabstop = 2
+
+vim.cmd [[ set listchars=tab:\┊\ ,leadmultispace:┊\ ]]
 
 -- run python
 vim.keymap.set(
@@ -15,5 +20,8 @@ vim.keymap.set(
 	{ noremap = true }
 )
 
-vim.o.tabstop = 2
-vim.cmd [[ set listchars=tab:\┊\ ,leadmultispace:┊\ ]]
+-- trim whitespace on save (clangd doesn't do this)
+vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
+	pattern = { '*' },
+	command = [[%s/\s\+$//e]],
+})

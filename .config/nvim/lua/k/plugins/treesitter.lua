@@ -1,4 +1,4 @@
--- [[ Configure Treesitter ]]
+-- [[ Treesitter ]]
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
 	-- Add languages to be installed here that you want installed for treesitter
@@ -127,12 +127,12 @@ require('nvim-treesitter.configs').setup {
 }
 
 -- treesitter folding
-local function treesitter_folding()
-	vim.opt.foldmethod = 'expr'
-	vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
-	-- vim.cmd [[set nofoldenable]]
-end
--- treesitter_folding()
+-- local function treesitter_folding()
+-- 	vim.opt.foldmethod = 'expr'
+-- 	vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+-- 	-- vim.cmd [[set nofoldenable]]
+-- end
+-- -- treesitter_folding()
 
 local ts_repeat_move = require 'nvim-treesitter.textobjects.repeatable_move'
 
@@ -164,6 +164,7 @@ require 'treesitter-context'.setup({
 		-- vim.cmd [[hi TreesitterContextBottom gui=underline guisp=Grey]]
 	end
 })
+
 vim.keymap.set('n', '[p', function()
 	require('treesitter-context').go_to_context()
 end, { silent = true }, { desc = 'Go to parent context' })

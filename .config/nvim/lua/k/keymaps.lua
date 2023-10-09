@@ -9,18 +9,10 @@ vim.api.nvim_create_user_command('WQ', '<cmd>wq<cr>', { force = true })
 
 -- don't move forward with space (makes using space as leader better)
 vim.keymap.set({ 'n', 'v' },
-
 	'<Space>',
 	'<Nop>',
 	{ silent = true }
 )
-
--- previous jump with <c-i> (lowercase i)
--- vim.keymap.set({ 'n', 'v' },
--- 	'<c-i>',
--- 	'<c-I>',
--- 	{ silent = true }
--- )
 
 -- toggle file tree (24 characters wide)
 vim.keymap.set({ 'n', 'v' },
@@ -30,12 +22,20 @@ vim.keymap.set({ 'n', 'v' },
 	{ desc = '[E]xplore' }
 )
 
--- select all with `ga`
+-- yank all with `ga`
 vim.keymap.set({ 'n' },
 	'yga',
 	'ggVG$y<c-o>',
 	{ silent = true },
 	{ desc = '[Y]ank [G] [A]ll' }
+)
+
+-- visual select all with `vga`
+vim.keymap.set({ 'n' },
+	'vga',
+	'ggVG$',
+	{ silent = true },
+	{ desc = '[V]isual [G] [A]ll' }
 )
 
 -- open terminal
@@ -60,12 +60,53 @@ vim.keymap.set({ 'i' },
 	{ noremap = true }
 )
 
--- <meta-z> toggle wrapping (like in vscode)
+-- toggle wrapping
 vim.keymap.set({ 'n' },
 	'<leader>sw',
 	'<cmd>set wrap!<cr>',
 	{ noremap = true },
 	{ desc = '[S]et [W]rap' }
+)
+
+-- [[ only works for selection within a single line ]]
+-- surround with ()
+vim.keymap.set({ 'v' },
+	'<leader>(',
+	'\"ac()<ESC>\"aP',
+	{ noremap = true },
+	{ desc = 'surround with ()' }
+)
+
+-- surround with []
+vim.keymap.set({ 'v' },
+	'<leader>[',
+	'\"ac[]<ESC>\"aP',
+	{ noremap = true },
+	{ desc = 'surround with []' }
+)
+
+-- surround with {}
+vim.keymap.set({ 'v' },
+	'<leader>{',
+	'\"ac{}<ESC>\"aP',
+	{ noremap = true },
+	{ desc = 'surround with {}' }
+)
+
+-- surround with <>
+vim.keymap.set({ 'v' },
+	'<leader><',
+	'\"ac<><ESC>\"aP',
+	{ noremap = true },
+	{ desc = 'surround with <>' }
+)
+
+-- surround with ``
+vim.keymap.set({ 'v' },
+	'<leader>`',
+	'\"ac``<ESC>\"aP',
+	{ noremap = true },
+	{ desc = 'surround with ``' }
 )
 
 -- centre window for jumps

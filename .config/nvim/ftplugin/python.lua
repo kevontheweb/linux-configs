@@ -1,11 +1,15 @@
--- require'lspconfig'.pyright.setup{}
+-- [[ python ]]
+require'lspconfig'.pyright.setup{}
 
+vim.o.tabstop = 4
+vim.cmd [[ set listchars=tab:\┊\ ,leadmultispace:┊\ \ \ ]]
+
+-- run python asynchronously
 local function got_output(channel, msg, name)
 	-- vim.fn.append(vim.fn.line('$') - 1, msg) -- append to lines under cursor in buffer
 	print(msg[1])
 end
 
--- run python
 vim.keymap.set(
 	'n',
 	'<leader>mk',
@@ -21,30 +25,5 @@ vim.keymap.set(
 	{ noremap = true }
 )
 
--- vim.o.formatexpr = 'black %' -- enable range formatting for lsps that have formatting
-
--- overwrite vim.lsp.buf.format() keybind
-vim.keymap.set(
-	'n',
-	'gq',
-	function()
-		vim.cmd.write()
-		local cwd = vim.fn.getcwd()
-		local filename = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
-		vim.fn.jobstart({ 'black', filename },
-			{
-				cwd = cwd,
-				on_stderr = got_output,
-				on_stdout = got_output,
-				on_exit = function() vim.cmd.edit(filename) end
-			})
-	end,
-	{ desc = 'format python file using black' },
-	{ force = true }
-)
-
--- format on save
--- vim.api.nvim_create_autocmd("bufWritePost", {
--- 	pattern = "*.py",
--- 	command = "silent !black %",
--- })
+-- [[ formatting ]]
+vim.bo.formatprg = 'black -q - '

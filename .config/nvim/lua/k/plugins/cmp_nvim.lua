@@ -1,4 +1,4 @@
--- nvim-cmp setup (Autocompletion)
+-- [[ nvim-cmp setup (Autocompletion) ]]
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
 luasnip.config.setup {}

@@ -9,5 +9,4 @@ vim.keymap.set('n', 'q',
 	end,
 	{ buffer = true, silent = true },
 	{ desc = '[Q]uit netrw' }
-
 )

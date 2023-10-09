@@ -1,4 +1,5 @@
--- my config stuff
+-- [[ Configs ]]
+-- my custom config stuff that isn't just a setting
 
 -- [[ vw: 'vintage wrap' ]] (only works when no splits are open)
 vim.keymap.set({ 'n' }, '<leader>vw',
@@ -35,13 +36,6 @@ vim.filetype.add({
 	}
 })
 
--- vim.cmd [[
--- augroup remember_folds
---   autocmd!
---   autocmd BufWinLeave * mkview
---   autocmd BufWinEnter * silent! loadview
--- augroup END
--- ]]
 
 local remember_folds = vim.api.nvim_create_augroup("RememberFolds", { clear = true })
 vim.api.nvim_create_autocmd("BufWinLeave", {
@@ -60,7 +54,7 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 -- [[ format on save ]]
 -- vim.cmd [[autocmd BufWritePost * lua vim.lsp.buf.format()]]
 -- trim whitespace on save (this is done with lsps mostly)
--- vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
--- 	pattern = { '*' },
--- 	command = [[%s/\s\+$//e]],
--- })
+vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
+	pattern = { '*' },
+	command = [[%s/\s\+$//e]],
+})

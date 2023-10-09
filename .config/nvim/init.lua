@@ -72,7 +72,8 @@ vim.cmd [[ set listchars=tab:\┊\ ,leadmultispace:┊\ \ \ ]]
 vim.cmd [[ set list ]]
 
 -- get rid of dots after a fold
-vim.cmd [[ set fillchars=fold:\ ]]
+vim.g.foldmethod = 'manual'
+-- vim.cmd [[ set fillchars=fold:\ ]]
 -- vim.cmd [[ set foldtext=v:foldtext() ]]
 
 -- make underscore a keywords so that you can jump through long snake case variable names
