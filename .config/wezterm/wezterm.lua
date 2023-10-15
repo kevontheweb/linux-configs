@@ -37,7 +37,7 @@ wezterm.on('toggle-opacity', function(window, pane)
 	if overrides.window_background_opacity ~= 1 then
 		overrides.window_background_opacity = 1
 	else
-		overrides.window_background_opacity = 0.925
+		overrides.window_background_opacity = 0.8
 	end
 	window:set_config_overrides(overrides)
 end)
@@ -45,9 +45,7 @@ end)
 
 function scheme_for_appearance(appearance)
 	if appearance:find "Light" then
-		-- return "Catppuccin Latte"
-		-- return 'Kanagawa (Gogh)'
-		return 'Tokyo Night'
+		return "Catppuccin Latte"
 		-- return 'Oxocarbon Light'
 		-- return 'Borland'
 		-- return 'PhD (base16)'
@@ -55,8 +53,9 @@ function scheme_for_appearance(appearance)
 		-- return 'wez'
 	else
 		-- return "Catppuccin Mocha"
-		-- return 'Kanagawa (Gogh)'
-		return 'Tokyo Night'
+		return 'Kanagawa (Gogh)'
+		-- return 'Tokyo Night'
+		-- return 'colibri'
 		-- return 'Oxocarbon Dark'
 		-- return 'Carbonfox Dark'
 		-- return 'Borland'
@@ -106,7 +105,7 @@ return {
 	show_new_tab_button_in_tab_bar = true,
 
 	initial_rows = 34,
-	initial_cols = 120,
+	initial_cols = 110,
 
 	colors = {
 		tab_bar = {
@@ -158,18 +157,18 @@ return {
 	font_size = 12,
 	-- cell_width = 1.1,
 	font = wezterm.font_with_fallback {
-		-- {
-		--
-		-- 	family = 'Recursive Mn Csl St',
-		-- 	weight = 'Regular',
-		-- 	harfbuzz_features = { 'dlig', 'ss20', 'liga', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss07', 'ss08', 'ss09', 'ss11', 'ss12' }
-		-- },
-		-- {
-		-- 	family = 'Comic Mono',
-		-- 	weight = 'Regular',
-		-- },
 		{
-			family = 'Cascadia Mono PL',
+			family = 'Comic Code Ligatures',
+			weight = 'Regular',
+		},
+		{
+			family = 'Recursive Mn Csl St',
+			weight = 'Regular',
+			harfbuzz_features = { 'dlig', 'ss20', 'liga', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss07', 'ss08', 'ss09', 'ss11', 'ss12' }
+		},
+		--[[
+		{
+			family = 'Cascadia Code PL',
 			weight = 'Regular',
 			harfbuzz_features = { 'calt', 'ss01', 'ss20' }
 		},
@@ -177,6 +176,10 @@ return {
 			family = 'Maple Mono',
 			weight = 'Regular',
 			harfbuzz_features = { 'cv01', 'ss01', 'ss02', 'ss03', 'ss04' }
+		},
+		{
+			family = 'Comic Mono',
+			weight = 'Regular',
 		},
 		{
 			family = 'Victor Mono',
@@ -209,8 +212,9 @@ return {
 			family = 'IBM Plex Mono',
 			weight = 'Medium',
 		},
+		]]
 	},
-	--[[ font_rules = {
+	font_rules = {
 		-- fall back on Cascadia Code for italics
 		{
 			intensity = 'Bold',
@@ -241,7 +245,7 @@ return {
 				harfbuzz_features = { 'calt', 'ss01', 'ss20' }
 			},
 		},
-	}, ]]
+	},
 
 
 	color_scheme = scheme_for_appearance(wezterm.gui.get_appearance()),

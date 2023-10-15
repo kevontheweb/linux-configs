@@ -64,10 +64,12 @@ function status_line()
 		" %M",
 		"%=",
 		"%#TabLineSel#",
+		-- "%-43(",
 		" 0x%02B █",
 		" %l/%L (%p%%) █",
 		" %l:%c █",
-		" time: %{strftime('%H:%M')} "
+		" time: %{strftime('%H:%M')} ",
+		-- "%)"
 	}
 end
 

@@ -9,15 +9,20 @@ function dark_light_theme()
 
 	if string.find(output, 'dark') then
 		vim.o.background = "dark"
+		-- vim.cmd.colorscheme 'tokyonight'
+
+		vim.cmd.colorscheme 'kanagawa'
+		vim.cmd [[hi Cursor guibg=#938AA9]]
+
+		-- vim.cmd.colorscheme 'colibri'
+
+		-- vim.cmd.colorscheme 'boo'
+
 		-- vim.cmd.colorscheme 'carbonfox'
-		vim.cmd.colorscheme 'tokyonight'
 		-- vim.cmd [[hi CursorLine guibg=#252525]]
 	else
-		-- vim.o.background = "light"
-		vim.o.background = "dark"
-		-- vim.cmd.colorscheme 'oxocarbon'
-		vim.cmd.colorscheme 'tokyonight'
-		-- vim.cmd.colorscheme 'dayfox'
+		vim.o.background = "light"
+		vim.cmd.colorscheme 'catppuccin-latte'
 	end
 end
 

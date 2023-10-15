@@ -1,0 +1,30 @@
+[colors]
+background = '#3b224c'
+foreground = '#fff'
+cursor_bg = '#281733'
+cursor_border = '#fff'
+cursor_fg = '#452859'
+
+ansi = [
+    '#66777E', # black
+    '#ECCDBA', # red
+    '#9FF28F', # green
+    '#E8DCA0', # yellow
+    '#A4A0E8', # blue
+    '#DBBFEF', # magenta
+    '#81CECF', # cyan
+    '#ffffff', # white
+]
+brights = [
+    '#66777E', # black
+    '#ECCDBA', # red
+    '#9FF28F', # green
+    '#E8DCA0', # yellow
+    '#A4A0E8', # blue
+    '#DBBFEF', # magenta
+    '#81CECF', # cyan
+    '#ffffff', # white
+]
+
+[metadata]
+name = 'colibri'

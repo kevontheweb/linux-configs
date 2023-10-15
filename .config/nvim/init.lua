@@ -19,6 +19,9 @@ require('k.colorscheme')
 -- Set highlight on search
 vim.o.hlsearch = true
 
+-- set textwidth
+vim.o.textwidth = 80
+
 -- Make line numbers default
 vim.wo.number = true
 
@@ -88,7 +91,7 @@ vim.o.pumheight = 12
 vim.o.smoothscroll = true
 vim.o.autoread = true
 vim.o.showcmd = true
-vim.o.cursorline = true
+vim.o.cursorline = false
 vim.o.laststatus = 3
 
 vim.cmd [[ab :smile: 🙂]]

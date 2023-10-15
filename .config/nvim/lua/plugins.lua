@@ -132,9 +132,25 @@ require('lazy').setup({
 
 
 		-- [[ Colorschemes ]]
+		{ 'archseer/colibri.vim' },
+
+		{
+			'rockerBOO/boo-colorscheme-nvim',
+			-- lazy = true,
+			config = function()
+				if vim.fn.has("termguicolors") then
+					vim.opt.termguicolors = true
+				end
+				require("boo-colorscheme").use({
+					italic = true, -- toggle italics
+					theme = "boo"
+				})
+			end
+		},
 
 		{
 			"EdenEast/nightfox.nvim",
+			lazy = true,
 			config = function()
 				require('nightfox').setup({
 					options = {

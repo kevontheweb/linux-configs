@@ -1,5 +1,5 @@
 -- [[ python ]]
-require'lspconfig'.pyright.setup{}
+-- require'lspconfig'.pyright.setup{}
 
 vim.o.tabstop = 4
 vim.cmd [[ set listchars=tab:\┊\ ,leadmultispace:┊\ \ \ ]]

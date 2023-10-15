@@ -3,31 +3,32 @@
 vim.g.mapleader = ' '
 
 -- these dont work
-vim.cmd [[packadd gitsigns.nvim]]
+vim.cmd [[packadd gitsigns.nvim]] -- git clone https://github.com/lewis6991/gitsigns.nvim in .config/nvim/pack/gitsigns.nvim/start/
 require('gitsigns').setup()
 
-vim.cmd [[packadd nightfox.nvim]]
+vim.cmd [[packadd nightfox.nvim]] -- git clone https://github.com/EdenEast/nightfox.nvim in .config/nvim/pack/nightfox/start/
+require('k.nightfox')
 
-vim.cmd [[packadd Comment.nvim]]
+vim.cmd [[packadd Comment.nvim]] -- git clone https://github.com/numToStr/Comment.nvim in .config/nvim/pack/Comment/start/
 require('Comment').setup()
 
 vim.cmd [[packadd nvim-lspconfig]] -- git clone https://github.com/neovim/nvim-lspconfig in .config/nvim/pack/nvim-lspconfig/start/
 require('k.lsp')
 
-vim.cmd [[packadd nvim-lspconfig]] -- Collection of configurations for built-in LSP client
-vim.cmd [[packadd nvim-cmp]]       -- Autocompletion plugin
-vim.cmd [[packadd cmp-nvim-lsp]]   -- LSP source for nvim-cmp
-vim.cmd [[packadd cmp_luasnip]]    -- Snippets source for nvim-cmp
-vim.cmd [[packadd LuaSnip]]        -- Snippets plugin
-vim.cmd [[packadd cmp-buffer]]
-vim.cmd [[packadd cmp-path]]
-vim.cmd [[packadd cmp-cmdline]]
+vim.cmd [[packadd nvim-lspconfig]] -- Collection of configurations for built-in LSP client git clone https://github.com/neovim/nvim-lspconfig in .config/nvim/pack/nvim-lspconfig/start/
+vim.cmd [[packadd nvim-cmp]]       -- Autocompletion plugin git clone https://github.com/hrsh7th/nvim-cmp in .config/nvim/pack/nvim-cmp/start/
+vim.cmd [[packadd cmp-nvim-lsp]]   -- LSP source for nvim-cmp git clone https://github.com/hrsh7th/cmp-nvim-lsp in .config/nvim/pack/cmp-nvim-lsp/start/
+vim.cmd [[packadd cmp_luasnip]]    -- Snippets source for nvim-cmp git clone https://github.com/saadparwaiz1/cmp_luasnip in .config/nvim/pack/cmp_luasnip/start/
+vim.cmd [[packadd LuaSnip]]        -- Snippets plugin git clone https://github.com/L3MON4D3/LuaSnip in .config/nvim/pack/LuaSnip/start/
+vim.cmd [[packadd cmp-buffer]] -- git clone https://github.com/hrsh7th/cmp-buffer in .config/nvim/pack/cmp-buffer/start/
+vim.cmd [[packadd cmp-path]] -- git clone https://github.com/hrsh7th/cmp-path in .config/nvim/pack/cmp-path/start/
+vim.cmd [[packadd cmp-cmdline]] -- git clone https://github.com/hrsh7th/cmp-cmdline in .config/nvim/pack/cmp-cmdline/start/
 require('k.cmp')
 
 vim.cmd [[packadd nvim-treesitter]] -- git clone https://github.com/nvim-treesitter/nvim-treesitter in .config/nvim/pack/nvim-treesitter/start/
-vim.cmd [[packadd nvim-treesitter-textobjects]]
-vim.cmd [[packadd nvim-treesitter-context]]
-vim.cmd [[packadd nvim-treesitter-refactor]]
+vim.cmd [[packadd nvim-treesitter-textobjects]] -- git clone https://github.com/nvim-treesitter/nvim-treesitter-textobjects in .config/nvim/pack/nvim-treesitter-textobjects/start/
+vim.cmd [[packadd nvim-treesitter-context]] -- git clone https://github.com/nvim-treesitter/nvim-treesitter-context in .config/nvim/pack/nvim-treesitter-context/start/
+vim.cmd [[packadd nvim-treesitter-refactor]] -- git clone https://github.com/nvim-treesitter/nvim-treesitter-refactor in .config/nvim/pack/nvim-treesitter-refactor/start/
 require('k.treesitter')
 
 require('k.configs')

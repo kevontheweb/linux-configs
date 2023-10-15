@@ -1,11 +1,10 @@
 -- [[ c++ ]]
-require'lspconfig'.clangd.setup{}
+-- require'lspconfig'.clangd.setup{}
 
 vim.o.tabstop = 2
 
 vim.cmd [[ set listchars=tab:\┊\ ,leadmultispace:┊\ ]]
 
--- run python
 vim.keymap.set(
 	'n',
 	'<leader>mk',

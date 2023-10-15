@@ -1,12 +1,29 @@
 -- [[ LSP ]]
 -- https://dx13.co.uk/articles/2023/04/24/neovim-lsp-without-plugins/
 local lspconfig = require('lspconfig')
-lspconfig.marksman.setup {}      -- copied binary to .config/nvim/lua/lsps/
-lspconfig.prosemd_lsp.setup {}   -- copied binary to .config/nvim/lua/lsps/
-lspconfig.pyright.setup {}       -- installed with pip
-lspconfig.lua_ls.setup {}        -- installed with dnf (maybe a copr repo, can't remember)
-lspconfig.clangd.setup {}        -- installed with dnf
-lspconfig.rust_analyzer.setup {} -- installed with rustup
+lspconfig.marksman.setup {}   -- copied binary to .config/nvim/lua/lsps/
+lspconfig.prosemd_lsp.setup { -- copied binary to .config/nvim/lua/lsps/
+	filetypes = {
+		"markdown", "md", "latex", "tex", "org", "plaintext", "txt"
+	}
+}
+lspconfig.pyright.setup {}      -- installed with pip
+lspconfig.lua_ls.setup {}       -- installed with dnf (maybe a copr repo, can't remember)
+lspconfig.clangd.setup {}       -- installed with dnf
+lspconfig.rust_analyzer.setup { -- installed with rustup
+	settings = {
+		['rust-analyzer'] = {},
+	},
+}
+lspconfig.digestif.setup {} -- installed with luarocks
+lspconfig.ltex.setup {      -- copied binary to .config/nvim/lua/lsps/
+		cmd = { "/home/kevin/.config/nvim/lsps/ltex-ls-16.0.0/bin/ltex-ls" },
+	settings = {
+		ltex = {
+			language = "en-GB",
+		},
+	},
+}
 
 -- diagnostic keymaps (always mapped)
 vim.keymap.set('n', 'KD', vim.diagnostic.open_float, { desc = 'Show diagnostics hover' })
@@ -88,7 +105,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts, { desc = 'LSP Rename' })
 		vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts, { desc = 'LSP References' })
 
-				-- workspace stuff
+		-- workspace stuff
 		vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts,
 			{ desc = 'Add workspace folder' })
 		vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts,
