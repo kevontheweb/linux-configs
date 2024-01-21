@@ -1,0 +1,31 @@
+[colors]
+background = '#14161B'
+foreground = '#ebeef5'
+cursor_bg = '#ebeef5'
+cursor_border = '#ebeef5'
+cursor_fg = '#14161B'
+
+ansi = [
+'#14161B', # bg
+'#ffbcb5', # red
+'#aaedb7', # green
+'#f4d88c', # yellow
+'#9fd8ff', # blue
+'#ffc3fa', # magenta
+'#83efef', # cyan
+'#9b9ea4', # comments
+]
+
+brights = [
+'#14161B', # bg
+'#ffbcb5', # red
+'#aaedb7', # green
+'#f4d88c', # yellow
+'#9fd8ff', # blue
+'#ffc3fa', # magenta
+'#83efef', # cyan
+'#9b9ea4', # comments
+]
+
+[metadata]
+name = 'Neovim Dark'

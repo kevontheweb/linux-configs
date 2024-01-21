@@ -33,6 +33,7 @@ vim.filetype.add({
 		cir = "spice",
 		ng = "spice",
 		ngspice = "spice",
+		tex = "latex",
 	}
 })
 

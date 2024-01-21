@@ -15,12 +15,12 @@ vim.keymap.set({ 'n', 'v' },
 )
 
 -- toggle file tree (24 characters wide)
-vim.keymap.set({ 'n', 'v' },
-	'<leader>e',
-	'<cmd>24Lexplore<CR>',
-	{ silent = true },
-	{ desc = '[E]xplore' }
-)
+-- vim.keymap.set({ 'n', 'v' },
+-- 	'<leader>e',
+-- 	'<cmd>24Lexplore<CR>',
+-- 	{ silent = true },
+-- 	{ desc = '[E]xplore' }
+-- )
 
 -- yank all with `ga`
 vim.keymap.set({ 'n' },
@@ -40,7 +40,7 @@ vim.keymap.set({ 'n' },
 
 -- open terminal
 vim.keymap.set({ 'n', 't' },
-	'<leader>t',
+	'<leader>ot', -- open terminal
 	'<cmd>split<CR><c-w><c-j><cmd>terminal<CR>a',
 	{ noremap = true },
 	{ desc = '[T]erminal' }
@@ -109,8 +109,33 @@ vim.keymap.set({ 'v' },
 	{ desc = 'surround with ``' }
 )
 
+-- surround with $$
+vim.keymap.set({ 'v' },
+	'<leader>$',
+	'\"ac$$<ESC>\"aP',
+	{ noremap = true },
+	{ desc = 'surround with $$' }
+)
+
+vim.keymap.set({ 'v' },
+	'<leader>\"',
+	'\"ac\"\"<ESC>\"aP',
+	{ noremap = true },
+	{ desc = 'surround with \"\"' }
+)
+
+vim.keymap.set({ 'v' },
+	'<leader>\'',
+	'\"ac\'\'<ESC>\"aP',
+	{ noremap = true },
+	{ desc = 'surround with \'\'' }
+)
+
 -- centre window for jumps
 -- vim.keymap.set('n', '{', '{zz')
 -- vim.keymap.set('n', '}', '}zz')
 -- vim.keymap.set('n', 'N', 'Nzz')
 -- vim.keymap.set('n', 'n', 'nzz')
+--
+vim.keymap.set('n', '<leader>zz', '<cmd>ZenMode<cr>', { silent = true },
+	{ desc = 'Toggle [Z]en mode' })

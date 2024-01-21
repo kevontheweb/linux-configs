@@ -10,25 +10,13 @@ require('telescope').setup {
 		},
 	},
 	extensions = {
-		bibtex = {
-			-- Path to global bibliographies (placed outside of the project)
-			global_files = { '~/Documents/Tuks/2023/EPR400/project.bib' },
-			search_keys = { 'author', 'year', 'title' },
-			citation_format = '{{author}} ({{year}}), {{title}}.',
-			context = true,
-			context_fallback = true,
-			wrap = false,
-		},
 	}
 
 }
 
 -- extensions
 pcall(require('telescope').load_extension('fzf'))
-pcall(require('telescope').load_extension('bibtex'))
-
 local builtin = require('telescope.builtin')
-local extensions = require('telescope').extensions
 
 -- See `:help telescope.builtin`
 vim.keymap.set(
@@ -111,15 +99,6 @@ vim.keymap.set(
 	'<leader>sd',
 	builtin.diagnostics,
 	{ desc = 'Telescope: [S]earch [D]iagnostics' }
-)
-
--- bib tex
-vim.keymap.set(
-	'n',
-	'<leader>sc',
-	'<cmd>:Telescope bibtex<cr>', -- extensions.bibtex.bibtex(),
-	{ desc = '[sc]: search citations' },
-	{ noremap = true }
 )
 
 -- improved lsp telescope keymaps

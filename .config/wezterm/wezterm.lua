@@ -37,7 +37,7 @@ wezterm.on('toggle-opacity', function(window, pane)
 	if overrides.window_background_opacity ~= 1 then
 		overrides.window_background_opacity = 1
 	else
-		overrides.window_background_opacity = 0.8
+		overrides.window_background_opacity = 0.9
 	end
 	window:set_config_overrides(overrides)
 end)
@@ -47,21 +47,24 @@ function scheme_for_appearance(appearance)
 	if appearance:find "Light" then
 		return "Catppuccin Latte"
 		-- return 'Oxocarbon Light'
+		-- return 'Tokyo Night light'
 		-- return 'Borland'
 		-- return 'PhD (base16)'
-		-- return 'Carbonfox Light'
 		-- return 'wez'
+		-- return 'Colibri Light'
+		-- return 'Neovim Light'
+		-- return 'Neovim Dark'
 	else
 		-- return "Catppuccin Mocha"
-		return 'Kanagawa (Gogh)'
-		-- return 'Tokyo Night'
-		-- return 'colibri'
+		-- return 'Kanagawa (Gogh)'
+		return 'Tokyo Night'
 		-- return 'Oxocarbon Dark'
-		-- return 'Carbonfox Dark'
 		-- return 'Borland'
 		-- return 'PhD (base16)'
-		-- return 'carbonfox'
 		-- return 'wez'
+		-- return 'carbonfox'
+		-- return 'Colibri Dark'
+		-- return 'Neovim Dark'
 	end
 end
 
@@ -99,13 +102,21 @@ return {
 	force_reverse_video_cursor = true,
 	pane_focus_follows_mouse = true,
 	switch_to_last_active_tab_when_closing_tab = true,
+	show_tab_index_in_tab_bar = false,
 	-- tabs
 	use_fancy_tab_bar = true,
 	hide_tab_bar_if_only_one_tab = false,
 	show_new_tab_button_in_tab_bar = true,
 
-	initial_rows = 34,
-	initial_cols = 110,
+	initial_rows = 30,
+	initial_cols = 120,
+
+	-- set terminal type (need to run below command)
+	--[[ tempfile=$(mktemp) \
+  && curl -o $tempfile https://raw.githubusercontent.com/wez/wezterm/main/termwiz/data/wezterm.terminfo \
+  && tic -x -o ~/.terminfo $tempfile \
+  && rm $tempfile ]]
+	term = 'wezterm',
 
 	colors = {
 		tab_bar = {
@@ -154,28 +165,19 @@ return {
 		orientation = { Linear = { angle = -45.0 } },
 	}, ]]
 
-	font_size = 12,
+	font_size = 10,
 	-- cell_width = 1.1,
 	font = wezterm.font_with_fallback {
 		{
-			family = 'Comic Code Ligatures',
-			weight = 'Regular',
+			family = 'JetBrains Mono',
+			weight = 'DemiBold',
+			harfbuzz_features = { 'calt', 'clig', 'liga' },
 		},
+		--[[
 		{
 			family = 'Recursive Mn Csl St',
 			weight = 'Regular',
 			harfbuzz_features = { 'dlig', 'ss20', 'liga', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss07', 'ss08', 'ss09', 'ss11', 'ss12' }
-		},
-		--[[
-		{
-			family = 'Cascadia Code PL',
-			weight = 'Regular',
-			harfbuzz_features = { 'calt', 'ss01', 'ss20' }
-		},
-		{
-			family = 'Maple Mono',
-			weight = 'Regular',
-			harfbuzz_features = { 'cv01', 'ss01', 'ss02', 'ss03', 'ss04' }
 		},
 		{
 			family = 'Comic Mono',
@@ -191,8 +193,22 @@ return {
 			weight = 'DemiBold'
 		},
 		{
+			family = 'Comic Code Ligatures',
+			weight = 'Regular',
+		},
+		{
+			family = 'Maple Mono',
+			weight = 'Regular',
+			harfbuzz_features = { 'cv01', 'ss01', 'ss02', 'ss03', 'ss04' }
+		},
+		{
 			family = 'Terminus',
 			weight = 'Regular'
+		}
+		{
+			family = 'Cascadia Code PL',
+			weight = 'Regular',
+			harfbuzz_features = { 'calt', 'ss01', 'ss20' }
 		},
 		{
 			family = 'CozetteVector',
@@ -203,18 +219,10 @@ return {
 			harfbuzz_features = { 'cv01', 'cv06', 'cv09', 'zero', 'cv14', 'ss04', 'cv16', 'cv31', 'cv30',
 				'ss02', 'ss09', 'cv25', 'cv25', 'cv26', 'cv32', 'cv27', 'ss06', 'ss07' }
 		},
-		{
-			family = 'JetBrains Mono',
-			weight = 'DemiBold',
-			harfbuzz_features = { 'calt', 'clig', 'liga' },
-		},
-		{
-			family = 'IBM Plex Mono',
-			weight = 'Medium',
-		},
 		]]
 	},
-	font_rules = {
+
+	--[[ font_rules = {
 		-- fall back on Cascadia Code for italics
 		{
 			intensity = 'Bold',
@@ -245,7 +253,7 @@ return {
 				harfbuzz_features = { 'calt', 'ss01', 'ss20' }
 			},
 		},
-	},
+	}, ]]
 
 
 	color_scheme = scheme_for_appearance(wezterm.gui.get_appearance()),
@@ -340,8 +348,8 @@ return {
 		},
 
 		{
-			key = '~',
-			mods = 'CTRL',
+			key = 'c', -- 'cycle'
+			mods = 'ALT',
 			action = wezterm.action.ActivatePaneDirection 'Next',
 		},
 
@@ -350,5 +358,6 @@ return {
 			mods = 'ALT',
 			action = wezterm.action.EmitEvent 'toggle-opacity',
 		},
+
 	},
 }

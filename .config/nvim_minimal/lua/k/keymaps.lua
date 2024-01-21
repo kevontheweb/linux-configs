@@ -14,28 +14,28 @@ vim.keymap.set({ 'n', 'v' },
 	{ silent = true }
 )
 
--- previous jump with <c-i> (lowercase i)
--- vim.keymap.set({ 'n', 'v' },
--- 	'<c-i>',
--- 	'<c-I>',
--- 	{ silent = true }
--- )
-
 -- toggle file tree (24 characters wide)
 vim.keymap.set({ 'n', 'v' },
 	'<leader>e',
 	'<cmd>24Lexplore<CR>',
-	{ noremap = true },
 	{ silent = true },
 	{ desc = '[E]xplore' }
 )
 
--- select all with `yga`
+-- yank all with `ga`
 vim.keymap.set({ 'n' },
 	'yga',
 	'ggVG$y<c-o>',
 	{ silent = true },
 	{ desc = '[Y]ank [G] [A]ll' }
+)
+
+-- visual select all with `vga`
+vim.keymap.set({ 'n' },
+	'vga',
+	'ggVG$',
+	{ silent = true },
+	{ desc = '[V]isual [G] [A]ll' }
 )
 
 -- open terminal
@@ -49,7 +49,7 @@ vim.keymap.set({ 'n', 't' },
 -- toggle focus terminal (allow for easy window change)
 vim.keymap.set({ 't' },
 	'<c-w>',
-	'<c-\\><c-n>',
+	'<c-\\><c-n><c-w>',
 	{ noremap = true }
 )
 
@@ -67,4 +67,76 @@ vim.keymap.set({ 'n' },
 	{ noremap = true },
 	{ desc = '[S]et [W]rap' }
 )
+
+-- [[ only works for selection within a single line ]]
+-- surround with ()
+vim.keymap.set({ 'v' },
+	'<leader>(',
+	'\"ac()<ESC>\"aP',
+	{ noremap = true },
+	{ desc = 'surround with ()' }
+)
+
+-- surround with []
+vim.keymap.set({ 'v' },
+	'<leader>[',
+	'\"ac[]<ESC>\"aP',
+	{ noremap = true },
+	{ desc = 'surround with []' }
+)
+
+-- surround with {}
+vim.keymap.set({ 'v' },
+	'<leader>{',
+	'\"ac{}<ESC>\"aP',
+	{ noremap = true },
+	{ desc = 'surround with {}' }
+)
+
+-- surround with <>
+vim.keymap.set({ 'v' },
+	'<leader><',
+	'\"ac<><ESC>\"aP',
+	{ noremap = true },
+	{ desc = 'surround with <>' }
+)
+
+-- surround with ``
+vim.keymap.set({ 'v' },
+	'<leader>`',
+	'\"ac``<ESC>\"aP',
+	{ noremap = true },
+	{ desc = 'surround with ``' }
+)
+
+-- surround with $$
+vim.keymap.set({ 'v' },
+	'<leader>$',
+	'\"ac$$<ESC>\"aP',
+	{ noremap = true },
+	{ desc = 'surround with $$' }
+)
+
+vim.keymap.set({ 'v' },
+	'<leader>\"',
+	'\"ac\"\"<ESC>\"aP',
+	{ noremap = true },
+	{ desc = 'surround with \"\"' }
+)
+
+vim.keymap.set({ 'v' },
+	'<leader>\'',
+	'\"ac\'\'<ESC>\"aP',
+	{ noremap = true },
+	{ desc = 'surround with \'\'' }
+)
+
+-- centre window for jumps
+-- vim.keymap.set('n', '{', '{zz')
+-- vim.keymap.set('n', '}', '}zz')
+-- vim.keymap.set('n', 'N', 'Nzz')
+-- vim.keymap.set('n', 'n', 'nzz')
+--
+vim.keymap.set('n', '<leader>zz', '<cmd>ZenMode<cr>', { silent = true },
+	{ desc = 'Toggle [Z]en mode' })
 

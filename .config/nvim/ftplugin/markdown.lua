@@ -53,10 +53,12 @@ vim.keymap.set(
 				'markdown+bracketed_spans',
 				'-t',
 				'pdf',
+				'--bibliography',
+				os.getenv('HOME') .. '/Documents/Tuks/2023/EPR400/project.bib',
 				'--csl',
 				os.getenv('HOME') .. '/Documents/Tuks/2023/EPR400/ieee.csl',
-				-- '-V',
-				-- 'geometry:margin=2.25cm',
+				'-V',
+				'geometry:margin=1.5cm',
 				'-V',
 				'geometry:paper=a4paper',
 				'--pdf-engine',
@@ -76,11 +78,6 @@ vim.keymap.set(
 	{ desc = '[m]a[k]e pdf with pandoc' },
 	{ noremap = true }
 )
-
--- vim.keymap.set('n', '<leader>mk',
--- 	'<cmd>!pandoc % -f markdown+bracketed_spans -t pdf --csl ~/Documents/Tuks/2023/EPR400/ieee.csl -V geometry:margin=2.25cm -V geometry:paper=a4paper --pdf-engine lualatex -C -so "%:r.pdf" && xdg-open %:r.pdf<cr>',
--- 	{ desc = 'Compile and open markdown document' }
--- )
 
 -- prettier formatting with gq
 vim.bo.formatprg = 'prettier --stdin-filepath %'

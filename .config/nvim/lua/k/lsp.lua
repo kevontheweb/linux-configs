@@ -1,31 +1,100 @@
 -- [[ LSP ]]
--- https://dx13.co.uk/articles/2023/04/24/neovim-lsp-without-plugins/
+--
+require("mason").setup()
+require("mason-lspconfig").setup {
+	ensure_installed = {
+		"lua_ls",
+		"rust_analyzer",
+		"clangd",
+		"marksman",
+		"prosemd_lsp",
+		"pyright",
+		-- "digestif", -- this needs to be installed some other way
+		-- "ltex",
+		"eslint",
+		"html",
+		"cssls",
+		"jsonls",
+		"emmet_ls"
+	},
+	automatic_installation = true,
+}
+
 local lspconfig = require('lspconfig')
-lspconfig.marksman.setup {}   -- copied binary to .config/nvim/lua/lsps/
-lspconfig.prosemd_lsp.setup { -- copied binary to .config/nvim/lua/lsps/
+
+lspconfig.marksman.setup {}
+lspconfig.prosemd_lsp.setup {
+	-- autostart = false,
 	filetypes = {
 		"markdown", "md", "latex", "tex", "org", "plaintext", "txt"
 	}
 }
-lspconfig.pyright.setup {}      -- installed with pip
-lspconfig.lua_ls.setup {}       -- installed with dnf (maybe a copr repo, can't remember)
-lspconfig.clangd.setup {}       -- installed with dnf
-lspconfig.rust_analyzer.setup { -- installed with rustup
+lspconfig.pyright.setup {
+	-- autostart = false
+}
+lspconfig.lua_ls.setup {}
+lspconfig.clangd.setup {}
+lspconfig.rust_analyzer.setup {
 	settings = {
 		['rust-analyzer'] = {},
 	},
 }
-lspconfig.digestif.setup {} -- installed with luarocks
-lspconfig.ltex.setup {      -- copied binary to .config/nvim/lua/lsps/
-		cmd = { "/home/kevin/.config/nvim/lsps/ltex-ls-16.0.0/bin/ltex-ls" },
+--[[ lspconfig.digestif.setup {
+	filetypes = { "latex", "tex", "bib" }
+}
+lspconfig.ltex.setup {
+	autostart = true,
+	filetypes = { "latex", "tex", },
 	settings = {
 		ltex = {
 			language = "en-GB",
 		},
 	},
-}
+} ]]
+-- VSCode langservers
+--Enable (broadcasting) snippet capability for completion
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
 
--- diagnostic keymaps (always mapped)
+-- html
+require 'lspconfig'.html.setup { -- npm i -g vscode-langservers-extracted
+	capabilities = capabilities,
+}
+--css
+require 'lspconfig'.cssls.setup {
+	capabilities = capabilities,
+}
+--json
+require 'lspconfig'.jsonls.setup {
+	capabilities = capabilities,
+}
+-- eslint
+lspconfig.eslint.setup({
+	--- ...
+	on_attach = function(client, bufnr)
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			buffer = bufnr,
+			command = "EslintFixAll",
+		})
+	end,
+})
+--emmet
+require 'lspconfig'.emmet_ls.setup {} --npm install -g emmet-ls
+
+-- [[ diagnostic keymaps (always mapped) ]]
+local diagnostics_active = true
+vim.keymap.set('n', '<leader>dt',
+	function()
+		diagnostics_active = not diagnostics_active
+		if diagnostics_active then
+			-- vim.diagnostic.show()
+			vim.diagnostic.config({ virtual_text = true })
+		else
+			-- vim.diagnostic.hide()
+			vim.diagnostic.config({ virtual_text = false })
+		end
+	end, { desc = 'Toggle diagnostics' })
+
 vim.keymap.set('n', 'KD', vim.diagnostic.open_float, { desc = 'Show diagnostics hover' })
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic' })
@@ -74,6 +143,7 @@ vim.keymap.set('n', '[q', vim.cmd.cprev, { desc = 'Previous quickfix' })
 vim.keymap.set('n', ']l', vim.cmd.lnext, { desc = 'Next loclist' })  -- loclist
 vim.keymap.set('n', '[l', vim.cmd.lprev, { desc = 'Previous loclist' })
 
+-- symbols
 vim.keymap.set("n", "gO", vim.lsp.buf.document_symbol, { noremap = true },
 	{ desc = "Show document symbols in quickfix list" })
 
@@ -119,6 +189,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.keymap.set({ 'n', 'v' }, 'gq', function()
 				vim.lsp.buf.format { async = true }
 			end, opts, { desc = 'LSP Format' })
+		else
+			vim.keymap.set({ 'n', 'v' }, 'gq', '<cmd>Format<cr>', { desc = 'Format with formatter.nvim' })
 		end
 	end,
 })
@@ -136,14 +208,14 @@ end
 
 vim.diagnostic.config({
 	virtual_text = {
-		format = function(diagnostic)
-			local lines = vim.split(diagnostic.message, '\n')
-			return lines[1]
-		end,
-		virt_text_pos = 'right_align',
-		virt_text_win_col = 120,
+		-- format = function(diagnostic)
+		-- 	local lines = vim.split(diagnostic.message, '\n')
+		-- 	return lines[1]
+		-- end,
+		-- virt_text_pos = 'right_align',
+		-- virt_text_win_col = 120,
 		suffix = ' ',
-		prefix = '●',
+		prefix = '● ',
 		spacing = 4,
 	},
 	signs = true,
@@ -158,11 +230,12 @@ vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
 	{ border = "rounded", max_width = 120 }
 )
 
-local signs = { Error = "E ", Warn = "W ", Hint = "H ", Info = "I " }
+-- local signs = { Error = "E ", Warn = "W ", Hint = "H ", Info = "I " }
 -- local signs = { Error = "✗ ", Warn = "⚠ ", Hint = "➤ ", Info = "🛈 " }
 -- local signs = { Error = "⛔ ", Warn = "⚠️ ", Hint = "📎 ", Info = "ℹ️ " }
 -- local signs = { Error = "█", Warn = "█", Hint = "█", Info = "█" }
--- local signs = { Error = "▌", Warn = "▌", Hint = "▌", Info = "▌" }
+-- local signs = { Error = "●", Warn = "●", Hint = "●", Info = "●" }
+local signs = { Error = "▌", Warn = "▌", Hint = "▌", Info = "▌" }
 
 -- icons for status column
 for type, icon in pairs(signs) do

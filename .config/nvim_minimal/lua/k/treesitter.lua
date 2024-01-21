@@ -130,7 +130,7 @@ local function treesitter_folding()
 	vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 	-- vim.cmd [[set nofoldenable]]
 end
-treesitter_folding()
+-- treesitter_folding()
 
 local ts_repeat_move = require 'nvim-treesitter.textobjects.repeatable_move'
 

@@ -1,0 +1,32 @@
+[colors]
+# Light:
+background = '#d6d9e0'
+foreground = '#0a0b10'
+cursor_bg = '#0a0b10'
+cursor_border = '#0a0b10'
+cursor_fg = '#ebeef5'
+
+ansi=[
+'#ebeef5', # bg
+'#5e0009', # red
+'#015825', # green
+'#6e5600', # yellow
+'#005078', # blue
+'#4c0049', # magenta
+'#007676', # cyan
+'#4F5258', # fg
+]
+
+brights = [
+'#ebeef5', # bg
+'#5e0009', # red
+'#015825', # green
+'#6e5600', # yellow
+'#005078', # blue
+'#4c0049', # magenta
+'#007676', # cyan
+'#4F5258', # fg
+]
+
+[metadata]
+name = 'Neovim Light'

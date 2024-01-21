@@ -33,7 +33,7 @@ vim.keymap.set(
 		-- vim.v.servername .. ' --remote +\\%{line} \\%{input}\" --synctex-forward ' .. pos
 
 		vim.fn.system('make clean')
-		vim.fn.jobstart({ 'make', '-j12' }, { text = true, cwd = cwd, on_stderr = got_output, on_stdout = got_output })
+		vim.fn.jobstart({ 'make' }, { text = true, cwd = cwd, on_stderr = got_output, on_stdout = got_output })
 		-- vim.fn.system(executable .. ' ' .. args .. ' ' .. pdfname)
 		-- vim.fn.system('zathura ' .. pdfname)
 	end,

@@ -1,0 +1,42 @@
+[colors]
+background = '#f3f2fc'
+foreground = '#938fdb'
+cursor_bg = '#938fdb'
+cursor_border = '#f3f2fc'
+cursor_fg = '#f3f2fc'
+
+ansi = [
+    '#697c81', # black
+    '#f47868', # red
+    '#6bc05b', # green
+    '#d7c25b', # yellow
+    '#c690eb', # blue
+    '#c590eb', # magenta
+    '#81cecf', # cyan
+    '#cccccc', # white
+]
+
+brights = [
+    '#697c81', # black
+    '#f47868', # red
+    '#6bc05b', # green
+    '#d7c25b', # yellow
+    '#c690eb', # blue
+    '#c590eb', # magenta
+    '#81cecf', # cyan
+    '#cccccc', # white
+]
+
+# brights = [
+#     '#66777E', # black
+#     '#ECCDBA', # red
+#     '#9FF28F', # green
+#     '#E8DCA0', # yellow
+#     '#A4A0E8', # blue
+#     '#DBBFEF', # magenta
+#     '#81CECF', # cyan
+#     '#ffffff', # white
+# ]
+
+[metadata]
+name = 'Colibri Light'

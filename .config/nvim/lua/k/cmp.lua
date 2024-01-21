@@ -1,7 +1,8 @@
--- [[ nvim-cmp setup (Autocompletion) ]]
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
 luasnip.config.setup {}
+luasnip.filetype_extend("latex", { "tex" })
+require("luasnip.loaders.from_vscode").load {}
 
 cmp.setup {
 	snippet = {
@@ -13,12 +14,13 @@ cmp.setup {
 		['<C-u>'] = cmp.mapping.scroll_docs(-4), -- don't think these work tbh
 		['<C-d>'] = cmp.mapping.scroll_docs(4), -- don't think these work tbh
 		['<C-Space>'] = cmp.mapping.complete {}, -- trigger completion popup
+		['<C-e>'] = cmp.mapping.abort(), -- close completion popup
 		['<CR>'] = cmp.mapping.confirm { -- confirm lsp completions with enter (currently using tab for completion of codeium AI suggestions)
 			behavior = cmp.ConfirmBehavior.Replace,
 			select = true,
 		},
 
-		--[[ ['<Tab>'] = cmp.mapping.confirm { -- confirm lsp completions with enter (currently using tab for )
+		--[[ ['<Tab>'] = cmp.mapping.confirm { -- confirm lsp completions with enter (currently using tab for codeium)
 			behavior = cmp.ConfirmBehavior.Replace,
 			select = true,
 		}, ]]

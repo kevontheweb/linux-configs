@@ -1,4 +1,5 @@
--- my config stuff
+-- [[ Configs ]]
+-- my custom config stuff that isn't just a setting
 
 -- [[ vw: 'vintage wrap' ]] (only works when no splits are open)
 vim.keymap.set({ 'n' }, '<leader>vw',
@@ -32,29 +33,29 @@ vim.filetype.add({
 		cir = "spice",
 		ng = "spice",
 		ngspice = "spice",
+		tex = "latex",
 	}
+})
+
+
+local remember_folds = vim.api.nvim_create_augroup("RememberFolds", { clear = true })
+vim.api.nvim_create_autocmd("BufWinLeave", {
+	group = remember_folds,
+	desc = "Remember folds and window stuff",
+	pattern = "*",
+	callback = function() vim.cmd[[silent! mkview]] end,
+})
+vim.api.nvim_create_autocmd("BufWinEnter", {
+	group = remember_folds,
+	desc = "Remember folds and window stuff",
+	pattern = "*",
+	callback = function() vim.cmd[[silent! loadview]] end,
 })
 
 -- [[ format on save ]]
 -- vim.cmd [[autocmd BufWritePost * lua vim.lsp.buf.format()]]
-
 -- trim whitespace on save (this is done with lsps mostly)
--- vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
--- 	pattern = { '*' },
--- 	command = [[%s/\s\+$//e]],
--- })
-
--- [[ restore last editing location on file open ]]
-vim.api.nvim_create_autocmd('BufReadPost', {
-	-- group = vim.g.user.event,
-	callback = function(args)
-		local valid_line = vim.fn.line([['']]) >= 1 and vim.fn.line([['']]) < vim.fn.line('$')
-		local not_commit = vim.b[args.buf].filetype ~= 'commit'
-
-		if valid_line and not_commit then
-			vim.cmd([[normal! g`']])
-			vim.cmd([[normal! zz']])
-		end
-	end,
+vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
+	pattern = { '*' },
+	command = [[%s/\s\+$//e]],
 })
-

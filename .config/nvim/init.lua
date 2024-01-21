@@ -3,24 +3,24 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
--- [[ imports ]]
-require('plugins')
-require('k.plugins.telescope')
-require('k.plugins.treesitter')
-require('k.plugins.lsp') -- needs to be after the above keybinds
-require('k.plugins.cmp_nvim')
--- require('k.plugins.lualine')
+-- these dont work
+require('k.lazy')
+require('gitsigns').setup()
+require('Comment').setup()
+require('k.lsp')
+require('k.cmp')
+require('k.treesitter')
+require('k.telescope')
+require("which-key").setup()
+require('k.codeium')
 require('k.configs')
-require('k.keymaps')
 require('k.statusline')
+require('k.keymaps')
 require('k.colorscheme')
 
 -- [[ Setting options ]]
 -- Set highlight on search
 vim.o.hlsearch = true
-
--- set textwidth
-vim.o.textwidth = 80
 
 -- Make line numbers default
 vim.wo.number = true
@@ -51,15 +51,15 @@ vim.o.smartcase = true
 vim.wo.signcolumn = 'yes'
 
 -- Decrease update time
-vim.o.updatetime = 250
+vim.o.updatetime = 80
 vim.o.timeout = true
-vim.o.timeoutlen = 300
+vim.o.timeoutlen = 500
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
 
 -- NOTE: You should make sure your terminal supports this
--- vim.o.termguicolors = true
+vim.o.termguicolors = true
 
 -- Use Netrw
 vim.g.netrw_browse_split = 3
@@ -70,6 +70,8 @@ vim.g.netrw_sort_options = "i"
 
 vim.o.wrap = false
 vim.o.linebreak = true
+vim.o.textwidth = 120 -- set textwidth to 80
+vim.cmd[[set formatoptions-=t]] -- turn off auto line breaks
 
 vim.cmd [[ set listchars=tab:\┊\ ,leadmultispace:┊\ \ \ ]]
 vim.cmd [[ set list ]]
@@ -88,11 +90,15 @@ vim.o.pumheight = 12
 -- winbar (file info in the tabline even when no tabs)
 -- vim.o.winbar = '%n: %f %m [%l/%L]'
 
+vim.o.inccommand = 'nosplit'
 vim.o.smoothscroll = true
 vim.o.autoread = true
 vim.o.showcmd = true
-vim.o.cursorline = false
+vim.o.cursorline = true
 vim.o.laststatus = 3
+
+-- no swap file (because it's annoying)
+vim.opt.swapfile = false
 
 vim.cmd [[ab :smile: 🙂]]
 vim.cmd [[ab :cry: 😭]]
@@ -102,9 +108,10 @@ vim.cmd [[ab :py: 🐍]]
 vim.cmd [[ab :skull: 💀]]
 vim.cmd [[ab :poop: 💩]]
 vim.cmd [[ab :sparkles: ✨]]
-vim.cmd [[ab :ok: 👌]]
+vim.cmd [[ab ok okay]]
 
 -- blinking cursor (this breaks in some colorschemes)
 vim.cmd [[set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
 		  \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
 		  \,sm:block-blinkwait175-blinkoff150-blinkon175]]
+

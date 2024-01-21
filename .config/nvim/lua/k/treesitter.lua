@@ -1,7 +1,4 @@
--- [[ Treesitter ]]
--- See `:help nvim-treesitter`
-require('nvim-treesitter.configs').setup {
-	-- Add languages to be installed here that you want installed for treesitter
+require 'nvim-treesitter.configs'.setup {
 	ensure_installed = {
 		'markdown',
 		'markdown_inline',
@@ -18,15 +15,14 @@ require('nvim-treesitter.configs').setup {
 		'vim',
 		'lua',
 		'org',
+		"vimdoc",
+		"query"
 	},
-	additional_vim_regex_highlighting = { 'org' },
-
-	-- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
+	sync_install = false,
 	auto_install = true,
-
 	highlight = {
 		enable = true,
-		-- disable slow treesitter highlight for large files
+		--disable = { "c", "rust" },
 		disable = function(lang, buf)
 			local max_filesize = 100 * 1024 -- 100 KB
 			local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
@@ -34,20 +30,22 @@ require('nvim-treesitter.configs').setup {
 				return true
 			end
 		end,
+		additional_vim_regex_highlighting = false,
 	},
 
-	indent = { enable = true, disable = { 'python'  } },
+	indent = {
+		enable = true
+	},
 
 	incremental_selection = {
 		enable = true,
 		keymaps = {
-			init_selection = 'gnn', -- set to `false` to disable one of the mappings
-			node_incremental = 'grn',
-			scope_incremental = 'grc',
-			node_decremental = 'grm',
+			init_selection = "gnn", -- set to `false` to disable one of the mappings
+			node_incremental = "grn",
+			scope_incremental = "grc",
+			node_decremental = "grm",
 		},
 	},
-
 
 	refactor = {
 		highlight_definitions = {
@@ -55,6 +53,7 @@ require('nvim-treesitter.configs').setup {
 			-- Set to false if you have an `updatetime` of ~100.
 			clear_on_cursor_move = true,
 		},
+		highlight_current_scope = { enable = false },
 		smart_rename = {
 			enable = true,
 			-- Assign keymaps to false to disable them, e.g. `smart_rename = false`.
@@ -117,22 +116,22 @@ require('nvim-treesitter.configs').setup {
 		swap = {
 			enable = true,
 			swap_next = {
-				['<leader>a'] = '@parameter.inner',
+				["<leader>a"] = "@parameter.inner",
 			},
 			swap_previous = {
-				['<leader>A'] = '@parameter.inner',
+				["<leader>A"] = "@parameter.inner",
 			},
 		},
 	},
 }
 
 -- treesitter folding
--- local function treesitter_folding()
--- 	vim.opt.foldmethod = 'expr'
--- 	vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
--- 	-- vim.cmd [[set nofoldenable]]
--- end
--- -- treesitter_folding()
+local function treesitter_folding()
+	vim.opt.foldmethod = "expr"
+	vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+	-- vim.cmd [[set nofoldenable]]
+end
+-- treesitter_folding()
 
 local ts_repeat_move = require 'nvim-treesitter.textobjects.repeatable_move'
 
@@ -152,7 +151,7 @@ vim.keymap.set({ 'n', 'x', 'o' }, 't', ts_repeat_move.builtin_t)
 vim.keymap.set({ 'n', 'x', 'o' }, 'T', ts_repeat_move.builtin_T)
 
 require 'treesitter-context'.setup({
-	enable = false, -- using barbeque
+	enable = true,
 	max_lines = 0,
 	min_window_height = 0,
 	line_numbers = true,
@@ -164,7 +163,6 @@ require 'treesitter-context'.setup({
 		-- vim.cmd [[hi TreesitterContextBottom gui=underline guisp=Grey]]
 	end
 })
-
-vim.keymap.set('n', '[p', function()
-	require('treesitter-context').go_to_context()
-end, { silent = true }, { desc = 'Go to parent context' })
+vim.keymap.set("n", "[p", function()
+	require("treesitter-context").go_to_context()
+end, { silent = true }, { desc = "Go to parent context" })

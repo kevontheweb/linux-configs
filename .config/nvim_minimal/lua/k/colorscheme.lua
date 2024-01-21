@@ -8,24 +8,21 @@ function dark_light_theme()
 	output = output:gsub('\'', '')
 
 	if string.find(output, 'dark') then
-		vim.o.background = 'dark'
-		-- require('themes.catppuccin')
+		-- vim.cmd.colorscheme 'tokyonight'
 		-- vim.cmd.colorscheme 'catppuccin'
-
-		require('themes.tokyonight')
-		vim.cmd.colorscheme 'tokyonight'
-
+		-- vim.cmd.colorscheme 'oxocarbon'
+		-- vim.cmd.colorscheme 'carbonfox'
+		-- vim.cmd.colorscheme 'boo'
 		-- vim.cmd.colorscheme 'colibri'
+		vim.cmd.colorscheme 'default'
+		vim.o.background = 'dark'
 
-		-- vim.cmd.colorscheme 'default'
+		-- vim.cmd [[hi CursorLine guibg=#252525]]
 	else
-		vim.o.background = 'light'
-		require('themes.catppuccin')
-		vim.cmd.colorscheme 'catppuccin-latte'
-
+		-- vim.cmd.colorscheme 'catppuccin-latte'
 		-- vim.cmd.colorscheme 'colibri'
-
-		-- vim.cmd.colorscheme 'default'
+		vim.cmd.colorscheme 'default'
+		vim.o.background = 'light'
 	end
 
 	-- transparent background
