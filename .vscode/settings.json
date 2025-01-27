@@ -1,0 +1,267 @@
+{
+    "workbench.colorTheme": "Tokyo Night Storm",
+    "workbench.list.smoothScrolling": true,
+    "workbench.productIconTheme": "fluent-icons",
+    "window.titleBarStyle": "custom",
+    "window.customTitleBarVisibility": "auto",
+    "editor.foldingStrategy": "auto",
+    "editor.fontFamily": "\"Comic Mono\", \"JetBrains Mono\", \"Cascadia Mono PL\", \"Go Mono\", Fira Code, Droid Sans Mono, Victor Mono",
+    "editor.fontSize": 15,
+    "editor.fontWeight": "normal",
+    "editor.fontLigatures": "'calt', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'zero', 'onum'",
+    "editor.fontVariations": true,
+    "files.trimTrailingWhitespace": true,
+    "terminal.integrated.persistentSessionScrollback": 1000,
+    "terminal.integrated.scrollback": 50000,
+    "terminal.integrated.smoothScrolling": true,
+    "vim.highlightedyank.enable": true,
+    "vim.hlsearch": true,
+    "vim.leader": "<space>",
+    "vim.useSystemClipboard": true,
+    "vim.visualstar": true,
+    "vim.normalModeKeyBindings": [],
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "g",
+                "r"
+            ],
+            "commands": [
+                "editor.action.goToReferences"
+            ]
+        },
+        {
+            "before": [
+                "K"
+            ],
+            "commands": [
+                "editor.action.showHover"
+            ]
+        },
+        {
+            "before": [
+                "]",
+                "d"
+            ],
+            "commands": [
+                "editor.action.marker.next"
+            ]
+        },
+        {
+            "before": [
+                "[",
+                "d"
+            ],
+            "commands": [
+                "editor.action.marker.prev"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "f",
+                "s"
+            ],
+            "commands": [
+                "editor.action.accessibleViewGoToSymbol"
+            ]
+        },
+        {
+            "before": [
+                "g",
+                "q"
+            ],
+            "commands": [
+                // format
+                "editor.action.formatDocument"
+            ]
+        },
+        {
+            "before": [
+                " ",
+                " "
+            ],
+            "commands": [
+                "find-it-faster.findWithinFiles"
+            ]
+        },
+        {
+            "before": [
+                " ",
+                "f"
+            ],
+            "commands": [
+                "find-it-faster.findFiles"
+            ]
+        },
+        {
+            "before": [
+                "g",
+                "b"
+            ],
+            "commands": [
+                "editor.action.blockComment"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "r",
+                "n"
+            ],
+            "commands": [
+                "editor.action.rename"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "c",
+                "s"
+            ],
+            "commands": [
+                "github.copilot.generate"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "s",
+                "w"
+            ],
+            "commands": [
+                "editor.action.toggleWordWrap"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "d",
+                "b"
+            ],
+            "commands": [
+                "workbench.action.debug.start"
+            ]
+        }
+    ],
+    "idf.espIdfPath": "/home/kevin/esp/v5.2/esp-idf",
+    "idf.pythonBinPath": "/home/kevin/.espressif/python_env/idf5.2_py3.10_env/bin/python",
+    "idf.toolsPath": "/home/kevin/.espressif",
+    "idf.customExtraPaths": "/home/kevin/.espressif/tools/xtensa-esp-elf-gdb/12.1_20231023/xtensa-esp-elf-gdb/bin:/home/kevin/.espressif/tools/riscv32-esp-elf-gdb/12.1_20231023/riscv32-esp-elf-gdb/bin:/home/kevin/.espressif/tools/xtensa-esp-elf/esp-13.2.0_20230928/xtensa-esp-elf/bin:/home/kevin/.espressif/tools/riscv32-esp-elf/esp-13.2.0_20230928/riscv32-esp-elf/bin:/home/kevin/.espressif/tools/esp32ulp-elf/2.35_20220830/esp32ulp-elf/bin:/home/kevin/.espressif/tools/openocd-esp32/v0.12.0-esp32-20230921/openocd-esp32/bin:/home/kevin/.espressif/tools/ninja/1.11.1:/home/kevin/.espressif/tools/esp-rom-elfs/20230320",
+    "idf.customExtraVars": {
+        "OPENOCD_SCRIPTS": "/home/kevin/.espressif/tools/openocd-esp32/v0.12.0-esp32-20230921/openocd-esp32/share/openocd/scripts",
+        "ESP_ROM_ELF_DIR": "/home/kevin/.espressif/tools/esp-rom-elfs/20230320/"
+    },
+    "idf.gitPath": "git",
+    "idf.showOnboardingOnInit": false,
+    "cmake.showOptionsMovedNotification": false,
+    "git.openRepositoryInParentFolders": "never",
+    "github.copilot.advanced": {
+        "debug.showScores": true,
+    },
+    "C_Cpp.files.exclude": {
+        "**/.vscode": true,
+        "**/.vs": true,
+        "**/build/**": true,
+        "**/.pio/**": true,
+        "${env:HOME}/.platformio/**": true,
+    },
+    "C_Cpp.codeAnalysis.exclude": {
+        "**/build/**": true,
+        "**/.pio/**": true,
+        "**/.platformio/**/**": true,
+        "${env:HOME}/.platformio/**/**": true,
+        "${env:HOME}/.platformio/**": true,
+    },
+    "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
+        "modernize-use-trailing-return-type"
+    ],
+    "C_Cpp.formatting": "clangFormat",
+    "gitlens.hovers.currentLine.over": "line",
+    "gitlens.codeLens.enabled": false,
+    "gitlens.currentLine.enabled": false,
+    "gitlens.plusFeatures.enabled": false,
+    "C_Cpp.inlayHints.autoDeclarationTypes.enabled": true,
+    "C_Cpp.inlayHints.autoDeclarationTypes.showOnLeft": true,
+    "C_Cpp.inlayHints.parameterNames.enabled": true,
+    "C_Cpp.referencesCodeLens.enabled": true,
+    "github.copilot.enable": {
+        "markdown": "true"
+    },
+    "vscode-office.editorTheme": "Light",
+    "markdown-pdf.breaks": true,
+    "markdown-pdf.displayHeaderFooter": false,
+    "markdown-pdf.highlightStyle": "gruvbox-light.css",
+    "markdown-pdf.includeDefaultStyles": false,
+    "markdown-pdf.omitBackground": true,
+    "markdown-pdf.printBackground": false,
+    "workbench.editor.enablePreview": false,
+    "editor.quickSuggestions": {
+        "comments": "inline",
+        "strings": "inline"
+    },
+    "github.copilot.editor.enableAutoCompletions": true,
+    "cmake.pinnedCommands": [
+        "workbench.action.tasks.configureTaskRunner",
+        "workbench.action.tasks.runTask"
+    ],
+    "diffEditor.codeLens": true,
+    "codeium.enableSearch": true,
+    "markdown.preview.openMarkdownLinks": "inEditor",
+    "editor.inlayHints.padding": true,
+    "references.preferredLocation": "view",
+    "editor.detectIndentation": false,
+    "platformio-ide.autoOpenPlatformIOIniFile": false,
+    "platformio-ide.disablePIOHomeStartup": true,
+    "C_Cpp.codeAnalysis.runAutomatically": true,
+    "C_Cpp.inlayHints.referenceOperator.enabled": true,
+    "scm.experimental.showHistoryGraph": true,
+    "codeium.enableCodeLens": false,
+    "C_Cpp.inlayHints.parameterNames.suppressWhenArgumentContainsName": false,
+    "C_Cpp.inlayHints.parameterNames.hideLeadingUnderscores": false,
+    // "editor.cursorSmoothCaretAnimation": "on",
+    // "editor.smoothScrolling": true,
+    // "editor.cursorBlinking": "smooth",
+    "codeium.aggressiveShutdown": true,
+    "C_Cpp.codeAnalysis.clangTidy.enabled": true,
+    "catppuccin.italicKeywords": false,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "[python]": {
+        "diffEditor.ignoreTrimWhitespace": false,
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "editor.inlayHints.enabled": "onUnlessPressed",
+    "workbench.preferredDarkColorTheme": "City Lights",
+    "window.density.editorTabHeight": "compact",
+    "window.dialogStyle": "custom",
+    "editor.letterSpacing": 0.5,
+    "terminal.integrated.letterSpacing": 0.5,
+    "terminal.integrated.lineHeight": 1.3,
+    "editor.lineHeight": 1.3,
+    "editor.bracketPairColorization.enabled": false,
+    "editor.maxTokenizationLineLength": 1000,
+    "editor.cursorBlinking": "phase",
+    "python.analysis.inlayHints.callArgumentNames": "all",
+    "python.analysis.inlayHints.functionReturnTypes": true,
+    "python.analysis.inlayHints.pytestParameters": true,
+    "python.analysis.inlayHints.variableTypes": true,
+    "javascript.inlayHints.enumMemberValues.enabled": true,
+    "javascript.inlayHints.functionLikeReturnTypes.enabled": true,
+    "javascript.inlayHints.parameterNames.enabled": "all",
+    "javascript.inlayHints.parameterTypes.enabled": true,
+    "javascript.inlayHints.propertyDeclarationTypes.enabled": true,
+    "javascript.inlayHints.variableTypes.enabled": true,
+    "typescript.inlayHints.enumMemberValues.enabled": true,
+    "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+    "typescript.inlayHints.parameterNames.enabled": "all",
+    "typescript.inlayHints.parameterTypes.enabled": true,
+    "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
+    "typescript.inlayHints.variableTypes.enabled": true,
+    "editor.wrappingIndent": "deepIndent",
+    "git.confirmSync": false,
+    "editor.minimap.enabled": false,
+    "editor.stickyScroll.enabled": false,
+    "idf.pythonInstallPath": "/usr/bin/python3",
+    "idf.hasWalkthroughBeenShown": true,
+    // "C_Cpp.codeAnalysis.clangTidy.headerFilter": "${workspaceFolder}/(src/.*|lib/.*)\\.(cpp|h|hpp)$"
+}
